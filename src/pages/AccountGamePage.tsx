@@ -14,7 +14,8 @@ const AccountGamePage: React.FC = () => {
     const [numberOneTo, setFirstNumberTo] = useState('');
     const [numberTwoFrom, setSecondNumberFrom] = useState('');
     const [numberTwoTo, setSecondNumberTo] = useState('');
-    const [testType, setTestType] = useState('pdf'); // pdf by default
+    const [testType, setTestType] = useState('pdf'); // Default to 'pdf'
+    const [selectedOperations, setSelectedOperations] = useState(['+']); // Default operation
     const [tasks, setTasks] = useState<Task[]>([]);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const navigate = useNavigate();
@@ -40,22 +41,30 @@ const AccountGamePage: React.FC = () => {
         }
     };
 
+    const handleOperationChange = (operation: string) => {
+        setSelectedOperations((prev) =>
+            prev.includes(operation)
+                ? prev.filter((op) => op !== operation) // Deselect
+                : [...prev, operation] // Select
+        );
+    };
+
     const handleGenerateTasks = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
-
             if (!accessToken || !accountId) {
                 toast.error('Missing account information or access token.');
                 return;
             }
 
             const payload = {
-                numberOneFrom,
-                numberOneTo,
-                numberTwoFrom,
-                numberTwoTo,
+                numberOneFrom: Number(numberOneFrom),
+                numberOneTo: Number(numberOneTo),
+                numberTwoFrom: Number(numberTwoFrom),
+                numberTwoTo: Number(numberTwoTo),
                 testType,
-                accountId,
+                operations: selectedOperations.length > 0 ? selectedOperations : ['+'],
+                accountId: parseInt(accountId, 10),
             };
 
             const response = await fetch('http://0.0.0.0:8000/api/v1/task', {
@@ -90,7 +99,6 @@ const AccountGamePage: React.FC = () => {
     const handleSubmitTest = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
-
             if (!accessToken || !accountId) {
                 toast.error('Missing account information or access token.');
                 return;
@@ -103,7 +111,7 @@ const AccountGamePage: React.FC = () => {
                         return acc;
                     }, {}),
                 ],
-                accountId: parseInt(accountId, 10), // Ensure accountId is a number
+                accountId: parseInt(accountId, 10),
             };
 
             const response = await fetch('http://0.0.0.0:8000/api/v1/task/solve', {
@@ -170,8 +178,6 @@ const AccountGamePage: React.FC = () => {
                             onChange={(e) => setSecondNumberTo(e.target.value)}
                         />
                     </div>
-                    <button onClick={handleGenerateTasks} className="generate-button">Generate Tasks</button>
-
                     <div className="toggle-section">
                         <label className="toggle-label">PDF</label>
                         <input
@@ -182,6 +188,41 @@ const AccountGamePage: React.FC = () => {
                         />
                         <label className="toggle-label">Online</label>
                     </div>
+                    <div className="operations-section">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedOperations.includes('+')}
+                                onChange={() => handleOperationChange('+')}
+                            />
+                            +
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedOperations.includes('-')}
+                                onChange={() => handleOperationChange('-')}
+                            />
+                            -
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedOperations.includes('*')}
+                                onChange={() => handleOperationChange('*')}
+                            />
+                            x
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedOperations.includes('/')}
+                                onChange={() => handleOperationChange('/')}
+                            />
+                            /
+                        </label>
+                    </div>
+                    <button onClick={handleGenerateTasks} className="generate-button">Generate Tasks</button>
 
                     {tasks.length > 0 && (
                         <form className="tasks-form">

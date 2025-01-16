@@ -1,9 +1,10 @@
+/* AccountGamePage.scss */
+
 .account-game-page {
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #f5f5f5;
-    overflow: hidden; /* Prevent content overflow */
 }
 
 .header {
@@ -52,7 +53,6 @@
     justify-content: space-between;
     margin-top: 80px; /* Adjust for fixed header */
     height: calc(100vh - 80px);
-    overflow: hidden;
 }
 
 .inputs-section {
@@ -139,6 +139,31 @@ input {
     transform: translateX(20px);
 }
 
+.operations-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.operations-section label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+.operations-section input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #715ca8;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .tasks-form {
     margin-top: 20px;
     display: flex;
@@ -146,8 +171,6 @@ input {
     gap: 16px;
     width: 100%;
     max-width: 600px;
-    overflow-y: auto;
-    max-height: calc(100vh - 200px); /* Adjust for header and controls */
 }
 
 .task-item {
@@ -218,4 +241,25 @@ input {
     margin-bottom: 8px;
     font-size: 16px;
     color: #555;
+}
+
+.inputs-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.tasks-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
+    overflow-y: auto; /* Ensure scrollability */
+    max-height: calc(100vh - 300px); /* Adjust based on available height */
 }
