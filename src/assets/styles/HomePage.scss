@@ -1,10 +1,12 @@
+/* HomePage.scss */
+
 .home-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
     background-color: #f5f5f5;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .header {
@@ -16,7 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 32px; /* Adjust padding for consistent spacing */
+    padding: 16px 32px;
     background-color: #715ca8;
     color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -25,7 +27,7 @@
 
 .header h1 {
     margin: 0;
-    font-size: 24px; /* Consistent font size */
+    font-size: 24px;
 }
 
 .logout-button {
@@ -47,43 +49,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 32px;
-    margin-top: 80px; /* Adjust for fixed header */
+    margin-top: 100px; /* Space for the fixed header */
+    gap: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 800px;
 }
 
 .account-card {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 240px;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 150px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-}
-
-.account-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    gap: 10px;
 }
 
 .account-card h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
     color: #333;
 }
 
 .account-card p {
-    margin: 8px 0 0;
+    margin: 0;
     font-size: 16px;
     color: #666;
 }
 
-.delete-icon {
+.delete-button {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -93,15 +93,15 @@
     border-radius: 50%;
     width: 24px;
     height: 24px;
-    font-size: 14px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.delete-icon:hover {
+.delete-button:hover {
     background-color: #d9363e;
 }
 
@@ -113,8 +113,10 @@
     width: 50px;
     height: 50px;
     font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: background-color 0.3s;
 }
 
@@ -132,7 +134,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .modal-content {
@@ -145,7 +147,7 @@
 }
 
 .modal-content h2 {
-    margin-bottom: 16px;
+    margin: 0 0 16px 0;
     font-size: 20px;
     color: #333;
 }
@@ -162,21 +164,22 @@
 .modal-actions {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .submit-button {
-    background-color: #715ca8;
+    background-color: #28a745;
     color: #fff;
     border: none;
     border-radius: 4px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .submit-button:hover {
-    background-color: #583f91;
+    background-color: #218838;
 }
 
 .cancel-button {
@@ -184,7 +187,7 @@
     color: #fff;
     border: none;
     border-radius: 4px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;

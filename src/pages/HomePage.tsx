@@ -158,12 +158,20 @@ const HomePage: React.FC = () => {
                     return (
                         <div key={index} className="account-card">
                             {account ? (
-                                <Link to={`/account/${account.accountId}`}>
-                                    <div>
-                                        <h2>{account.username}</h2>
-                                        <p>Points: {account.points}</p>
-                                    </div>
-                                </Link>
+                                <div>
+                                    <Link to={`/account/${account.accountId}`}>
+                                        <div>
+                                            <h2>{account.username}</h2>
+                                            <p>Points: {account.points}</p>
+                                        </div>
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDeleteAccount(account.accountId)}
+                                        className="delete-button"
+                                    >
+                                        ✖
+                                    </button>
+                                </div>
                             ) : (
                                 <button onClick={handleCreateAccount} className="create-account-button">+</button>
                             )}
