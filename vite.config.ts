@@ -8,4 +8,7 @@ export default defineConfig({
     host: true,  // Allows access from outside the container
     port: 5173,  // Port to expose
   },
+  optimizeDeps: {
+    include: ['react-toastify'],
+  },
 })
