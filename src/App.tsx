@@ -1,25 +1,9 @@
-import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import AccountGamePage from './pages/AccountGamePage';
-
-const App: React.FC = () => {
-  return (
-    <>
-      <ToastContainer />
-      <Router>
-        <Routes>
-          <Route path="/" element={<AuthGuard><HomePage /></AuthGuard>} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/account/:accountId" element={<AuthGuard><AccountGamePage /></AuthGuard>} />
-        </Routes>
-      </Router>
-    </>
-  );
-};
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { useEffect } from 'react';
+import Home from './pages/Home';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -32,6 +16,26 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [navigate]);
 
   return <>{children}</>;
+};
+
+const ProtectedHome: React.FC = () => {
+  return (
+    <AuthGuard>
+      <Home />
+    </AuthGuard>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<ProtectedHome />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;
