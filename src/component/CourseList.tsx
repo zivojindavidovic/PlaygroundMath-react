@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Course {
     courseId: number;
@@ -8,6 +9,7 @@ interface Course {
 
 const CourseList: React.FC = () => {
     const [courses, setCourses] = useState<Course[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -31,7 +33,12 @@ const CourseList: React.FC = () => {
             <h3 className="text-center">My Courses</h3>
             <ul className="list-group">
                 {courses.map((course) => (
-                    <li key={course.courseId} className="list-group-item d-flex justify-content-between align-items-center">
+                    <li
+                        key={course.courseId}
+                        className="list-group-item d-flex justify-content-between align-items-center"
+                        onClick={() => navigate(`/myCourse/${course.courseId}`)}
+                        style={{ cursor: "pointer" }}
+                    >
                         <span>Age: {course.age}</span>
                         <span>Due Date: {new Date(course.dueDate).toLocaleDateString()}</span>
                     </li>

@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import { useEffect } from 'react';
 import Home from './pages/Home';
 import Account from './pages/Account';
+import Teacher from './pages/Teacher';
+import MyCourse from './pages/MyCourse';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -35,6 +37,22 @@ const ProtectedAccount: React.FC = () => {
   );
 };
 
+const ProtectedTeacher: React.FC = () => {
+  return (
+    <AuthGuard>
+      <Teacher />
+    </AuthGuard>
+  );
+};
+
+const ProtectedMyCourse: React.FC = () => {
+  return (
+    <AuthGuard>
+      <MyCourse />
+    </AuthGuard>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -43,6 +61,8 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account/:accountId" element={<ProtectedAccount />} />
+        <Route path="/teacher/:teacherId" element={<ProtectedTeacher />} />
+        <Route path="/myCourse/:courseId" element={<ProtectedMyCourse />} />
       </Routes>
     </Router>
   );
