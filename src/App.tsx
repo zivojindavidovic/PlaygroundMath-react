@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { useEffect } from 'react';
 import Home from './pages/Home';
+import Account from './pages/Account';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -26,6 +27,14 @@ const ProtectedHome: React.FC = () => {
   );
 };
 
+const ProtectedAccount: React.FC = () => {
+  return (
+    <AuthGuard>
+      <Account />
+    </AuthGuard>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -33,6 +42,7 @@ const App: React.FC = () => {
         <Route path="/" element={<ProtectedHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/account/:accountId" element={<ProtectedAccount />} />
       </Routes>
     </Router>
   );
