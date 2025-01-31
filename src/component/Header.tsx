@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import logo from "../assets/logo.png";
 
 const Header: React.FC = () => {
     const handleLogout = async () => {
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
 
     return (
         <nav className="navbar navbar-light bg-light px-4 d-flex justify-content-between">
-            <span className="navbar-brand">My App</span>
+            <img src={logo} alt="Logo img" style={{maxHeight: 40}}/>
             <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
         </nav>
     );
