@@ -18,18 +18,38 @@ interface TestItem {
   courseId: number;
 }
 
+interface Application {
+  courseId: number;
+  courseAge: number;
+  accountId: number;
+  accountAge: number;
+  accountUsername: string;
+}
+
 const MyCourse: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const [course, setCourse] = useState<Course | null>(null);
   const [loadingCourse, setLoadingCourse] = useState<boolean>(true);
 
+  // Task creation state
   const [numberOneFrom, setNumberOneFrom] = useState<number>(1);
   const [numberOneTo, setNumberOneTo] = useState<number>(10);
   const [numberTwoFrom, setNumberTwoFrom] = useState<number>(1);
   const [numberTwoTo, setNumberTwoTo] = useState<number>(10);
   const [operations, setOperations] = useState<string[]>([]);
+
+  // Toggle for PDF or Online
+  // When true -> PDF mode, when false -> Online mode
+  const [isPdf, setIsPdf] = useState<boolean>(false);
+
+  // PDF tasks (shown only if isPdf === true)
   const [pdfTasks, setPdfTasks] = useState<string[]>([]);
+
+  // Tests for the course
   const [tests, setTests] = useState<TestItem[]>([]);
+
+  // Applications for this course
+  const [applications, setApplications] = useState<Application[]>([]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -37,10 +57,10 @@ const MyCourse: React.FC = () => {
 
     fetch(`http://0.0.0.0:8000/api/v1/course/${courseId}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch course details");
         }
@@ -50,7 +70,7 @@ const MyCourse: React.FC = () => {
         setCourse(data);
         setLoadingCourse(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching course:", error);
         setLoadingCourse(false);
       });
@@ -58,18 +78,22 @@ const MyCourse: React.FC = () => {
 
   useEffect(() => {
     if (!courseId) return;
-    fetchTests(); // Fetch tests whenever courseId changes or on initial load
+    fetchTests();
+    fetchApplications();
   }, [courseId]);
 
   const fetchTests = async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken || !courseId) return;
     try {
-      const response = await fetch(`http://0.0.0.0:8000/api/v1/course/${courseId}/tests`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+      const response = await fetch(
+        `http://0.0.0.0:8000/api/v1/course/${courseId}/tests`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch tests");
       }
@@ -80,9 +104,31 @@ const MyCourse: React.FC = () => {
     }
   };
 
+  const fetchApplications = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken || !courseId) return;
+    try {
+      const response = await fetch(
+        `http://0.0.0.0:8000/api/v1/course/${courseId}/applications`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch applications");
+      }
+      const data: Application[] = await response.json();
+      setApplications(data);
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
+  };
+
   const toggleOperation = (op: string) => {
-    setOperations(prevOps =>
-      prevOps.includes(op) ? prevOps.filter(o => o !== op) : [...prevOps, op]
+    setOperations((prevOps) =>
+      prevOps.includes(op) ? prevOps.filter((o) => o !== op) : [...prevOps, op]
     );
   };
 
@@ -90,28 +136,37 @@ const MyCourse: React.FC = () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken || !courseId) return;
 
+    // We reset PDF tasks before creating new tasks
+    setPdfTasks([]);
+
     try {
+      // If isPdf is true -> "coursePdf", else -> "courseOnline"
+      const testType = isPdf ? "coursePdf" : "courseOnline";
       const response = await fetch("http://0.0.0.0:8000/api/v1/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           numberOneFrom,
           numberOneTo,
           numberTwoFrom,
           numberTwoTo,
-          testType: "course",
+          testType,
           operations,
-          courseId: Number(courseId)
-        })
+          courseId: Number(courseId),
+        }),
       });
       if (!response.ok) {
         throw new Error("Failed to create tasks");
       }
       const data: TaskResponse = await response.json();
-      setPdfTasks(data.tasks || []);
+      // Since we are only doing PDF preview here, store tasks in pdfTasks if it's PDF mode
+      // If it's online mode, you might just refresh your tests or do something else
+      if (isPdf) {
+        setPdfTasks(data.tasks || []);
+      }
       await fetchTests(); // Refresh tests after creating a new one
     } catch (error) {
       console.error("Error creating tasks:", error);
@@ -145,6 +200,40 @@ const MyCourse: React.FC = () => {
     doc.save(`tasks_course_${courseId}.pdf`);
   };
 
+  const handleApplicationDecision = async (
+    application: Application,
+    decision: boolean
+  ) => {
+    // Approve = true, Decline = false
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return;
+
+    try {
+      const response = await fetch(
+        "http://0.0.0.0:8000/api/v1/course/resolveApplication",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            courseId: application.courseId,
+            accountId: application.accountId,
+            decision: decision,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to resolve application");
+      }
+      // If successful, refetch the applications to see updated results
+      await fetchApplications();
+    } catch (error) {
+      console.error("Error resolving application:", error);
+    }
+  };
+
   if (loadingCourse) {
     return (
       <div>
@@ -173,12 +262,32 @@ const MyCourse: React.FC = () => {
       <div className="container mt-4">
         <h2>My Course (ID: {course.courseId})</h2>
         <div className="card p-3 mt-3 shadow-sm mb-4">
-          <p><strong>Age:</strong> {course.age}</p>
-          <p><strong>Due Date:</strong> {new Date(course.dueDate).toLocaleDateString()}</p>
+          <p>
+            <strong>Age:</strong> {course.age}
+          </p>
+          <p>
+            <strong>Due Date:</strong>{" "}
+            {new Date(course.dueDate).toLocaleDateString()}
+          </p>
         </div>
 
         <div className="card p-4 shadow-sm mb-4">
           <h4 className="mb-3">Task Settings</h4>
+
+          {/* PDF / Online Toggle */}
+          <div className="form-check form-switch mb-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="testTypeToggle"
+              checked={isPdf}
+              onChange={() => setIsPdf(!isPdf)}
+            />
+            <label className="form-check-label" htmlFor="testTypeToggle">
+              {isPdf ? "PDF" : "Online"}
+            </label>
+          </div>
+
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">Number One From</label>
@@ -223,7 +332,7 @@ const MyCourse: React.FC = () => {
 
           <div className="mb-3">
             <h6>Select Operations:</h6>
-            {["+", "-", "*", "/"].map(op => (
+            {["+", "-", "*", "/"].map((op) => (
               <div key={op} className="form-check form-check-inline">
                 <input
                   className="form-check-input"
@@ -244,10 +353,11 @@ const MyCourse: React.FC = () => {
           </button>
         </div>
 
-        {pdfTasks.length > 0 && (
+        {/* Show PDF preview only if isPdf is true and pdfTasks are available */}
+        {isPdf && pdfTasks.length > 0 && (
           <div
             className="mb-4 border p-4 bg-white shadow-sm position-relative"
-            style={{ height: "29.7cm", width: "21cm", padding: "20px" }}
+            style={{ height: "29.7cm", width: "21cm" }}
           >
             <div className="d-flex justify-content-between">
               <div>
@@ -290,14 +400,51 @@ const MyCourse: React.FC = () => {
           </div>
         )}
 
+        {/* List of Tests for this course */}
         {tests.length > 0 && (
           <div className="mb-4">
             <h4>All Tests for This Course</h4>
-            {tests.map(test => (
+            {tests.map((test) => (
               <div key={test.testId} className="card mb-2 shadow-sm">
                 <div className="card-body">
                   <h5 className="card-title">Test ID: {test.testId}</h5>
                   <p className="card-text">Course ID: {test.courseId}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* List of Applications for this course */}
+        {applications.length > 0 && (
+          <div className="mb-4">
+            <h4>Applications for This Course</h4>
+            {applications.map((app, index) => (
+              <div key={index} className="card mb-3 shadow-sm">
+                <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-start">
+                  <div>
+                    <h5 className="card-title">Username: {app.accountUsername}</h5>
+                    <p className="card-text mb-1">
+                      Course ID: {app.courseId} (Age: {app.courseAge})
+                    </p>
+                    <p className="card-text mb-1">
+                      Account ID: {app.accountId} (Age: {app.accountAge})
+                    </p>
+                  </div>
+                  <div className="mt-3 mt-md-0">
+                    <button
+                      className="btn btn-success me-2"
+                      onClick={() => handleApplicationDecision(app, true)}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleApplicationDecision(app, false)}
+                    >
+                      Decline
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

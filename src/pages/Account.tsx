@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../component/Header";
 import jsPDF from "jspdf";
 
@@ -9,14 +9,22 @@ interface RankUser {
   points: number;
 }
 
+// Response shape for tasks
 interface TaskResponse {
   type: string;
   tasks: any;
 }
 
+// An online task
 interface OnlineTask {
   taskId: number;
   task: string;
+}
+
+// A course (as given by the API)
+interface Course {
+  courseId: number;
+  courseAge: number;
 }
 
 const Account: React.FC = () => {
@@ -31,21 +39,52 @@ const Account: React.FC = () => {
   const [rankList, setRankList] = useState<RankUser[]>([]);
   const [pdfTasks, setPdfTasks] = useState<string[]>([]);
   const [onlineTasks, setOnlineTasks] = useState<OnlineTask[]>([]);
-  const [onlineResponses, setOnlineResponses] = useState<Record<number, string>>({});
+  const [onlineResponses, setOnlineResponses] = useState<Record<number, string>>(
+    {}
+  );
+  const [courses, setCourses] = useState<Course[]>([]);
 
+  // Fetch the rank list
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
+
     fetch("http://0.0.0.0:8000/api/v1/account/rankList", {
       headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
-      .then(response => response.json())
-      .then(data => setRankList(data))
-      .catch(error => console.error("Failed to fetch rank list", error));
+      .then((response) => response.json())
+      .then((data) => setRankList(data))
+      .catch((error) => console.error("Failed to fetch rank list", error));
   }, []);
 
+  // Fetch courses
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return;
+
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("http://0.0.0.0:8000/api/v1/course/10/list", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch courses");
+        }
+        const data: Course[] = await response.json();
+        setCourses(data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  // Fetch online tasks if testType is "online"
   useEffect(() => {
     const fetchOnlineTasks = async () => {
       const accessToken = localStorage.getItem("accessToken");
@@ -55,9 +94,9 @@ const Account: React.FC = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ accountId: Number(accountId) })
+          body: JSON.stringify({ accountId: Number(accountId) }),
         });
         if (!response.ok) {
           throw new Error("Failed to fetch online tasks");
@@ -74,6 +113,7 @@ const Account: React.FC = () => {
         setOnlineTasks([]);
       }
     };
+
     if (testType === "online") {
       setPdfTasks([]);
       fetchOnlineTasks();
@@ -82,12 +122,14 @@ const Account: React.FC = () => {
     }
   }, [testType, accountId]);
 
+  // Toggle operation in operations array
   const toggleOperation = (op: string) => {
-    setOperations(prevOps =>
-      prevOps.includes(op) ? prevOps.filter(o => o !== op) : [...prevOps, op]
+    setOperations((prevOps) =>
+      prevOps.includes(op) ? prevOps.filter((o) => o !== op) : [...prevOps, op]
     );
   };
 
+  // Create tasks (either PDF or online) based on inputs
   const handleCreateTasks = async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
@@ -96,7 +138,7 @@ const Account: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           numberOneFrom,
@@ -105,8 +147,8 @@ const Account: React.FC = () => {
           numberTwoTo,
           testType,
           accountId: Number(accountId),
-          operations
-        })
+          operations,
+        }),
       });
       if (!response.ok) {
         throw new Error("Failed to create tasks");
@@ -122,6 +164,7 @@ const Account: React.FC = () => {
     }
   };
 
+  // Download the PDF tasks
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     doc.setFont("helvetica", "bold");
@@ -133,8 +176,10 @@ const Account: React.FC = () => {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(16);
     doc.text("Zadaci:", 90, 40);
+
     const leftTasks = pdfTasks.slice(0, 10);
     const rightTasks = pdfTasks.slice(10, 20);
+
     doc.setFontSize(12);
     leftTasks.forEach((task, index) => {
       doc.text(task, 20, 60 + index * 10);
@@ -142,16 +187,19 @@ const Account: React.FC = () => {
     rightTasks.forEach((task, index) => {
       doc.text(task, 110, 60 + index * 10);
     });
+
     doc.save(`tasks_${accountId}.pdf`);
   };
 
+  // Handle changes for online task responses
   const handleOnlineResponseChange = (taskId: number, value: string) => {
-    setOnlineResponses(prev => ({
+    setOnlineResponses((prev) => ({
       ...prev,
       [taskId]: value,
     }));
   };
 
+  // Submit (solve) online tasks
   const handleSubmitOnlineTasks = async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
@@ -164,12 +212,12 @@ const Account: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           testAnswers: [answersObject],
-          accountId: Number(accountId)
-        })
+          accountId: Number(accountId),
+        }),
       });
       if (!response.ok) {
         throw new Error("Failed to solve tasks");
@@ -188,6 +236,7 @@ const Account: React.FC = () => {
       <Header />
       <div className="container mt-4">
         <div className="row mt-4">
+          {/* Left column (Task creation, PDF/Online tasks) */}
           <div className="col-md-7">
             <div className="card p-4 shadow-sm">
               <h4 className="mb-3">Task Settings</h4>
@@ -247,7 +296,7 @@ const Account: React.FC = () => {
               </div>
               <div className="mb-3">
                 <h6>Select Operations:</h6>
-                {["+", "-", "*", "/"].map(op => (
+                {["+", "-", "*", "/"].map((op) => (
                   <div key={op} className="form-check form-check-inline">
                     <input
                       className="form-check-input"
@@ -270,6 +319,8 @@ const Account: React.FC = () => {
                 Create Tasks
               </button>
             </div>
+
+            {/* PDF tasks preview and download */}
             {testType === "pdf" && pdfTasks.length > 0 && (
               <div
                 className="mt-4 border p-4 bg-white shadow-sm position-relative"
@@ -315,6 +366,8 @@ const Account: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Online tasks list */}
             {testType === "online" && onlineTasks.length > 0 && (
               <div className="mt-4 card p-4 bg-white shadow-sm">
                 <h5 className="mb-3">Unresolved Tasks</h5>
@@ -346,19 +399,43 @@ const Account: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Right column (Rank list + Courses) */}
           <div className="col-md-5">
+            {/* Rank List */}
             <div className="card p-4 shadow-sm">
               <h4 className="mb-3 text-center">Rank List</h4>
               <ul className="list-group">
                 {rankList.map((user, index) => (
                   <li
-                    key={index}
+                    key={user.accountId}
                     className="list-group-item d-flex justify-content-between align-items-center"
                   >
                     <span>
                       {index + 1}. {user.username}
                     </span>
                     <span className="badge bg-primary">{user.points} pts</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Courses */}
+            <div className="mt-3 card p-4 shadow-sm">
+              <h4 className="mb-3 text-center">Courses</h4>
+              <ul className="list-group">
+                {courses.map((course) => (
+                  <li
+                    key={course.courseId}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {/* 
+                      Link to the course page:
+                      /account/:accountId/course/:courseId 
+                    */}
+                    <Link to={`/account/${accountId}/course/${course.courseId}`}>
+                      Course #{course.courseId} - Age {course.courseAge}
+                    </Link>
                   </li>
                 ))}
               </ul>

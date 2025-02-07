@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Account from './pages/Account';
 import Teacher from './pages/Teacher';
 import MyCourse from './pages/MyCourse';
+import AccountCourse from './pages/AccountCourse';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -53,6 +54,14 @@ const ProtectedMyCourse: React.FC = () => {
   );
 };
 
+const ProtectedAccountCourse: React.FC = () => {
+  return (
+    <AuthGuard>
+      <AccountCourse />
+    </AuthGuard>
+  );
+}
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -63,6 +72,7 @@ const App: React.FC = () => {
         <Route path="/account/:accountId" element={<ProtectedAccount />} />
         <Route path="/teacher/:teacherId" element={<ProtectedTeacher />} />
         <Route path="/myCourse/:courseId" element={<ProtectedMyCourse />} />
+        <Route path="/account/:accountId/course/:courseId" element={<ProtectedAccountCourse />} />
       </Routes>
     </Router>
   );
