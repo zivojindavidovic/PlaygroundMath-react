@@ -106,10 +106,11 @@ const MyCourse: React.FC = () => {
 
   const fetchApplications = async () => {
     const accessToken = localStorage.getItem("accessToken");
+    const userId = localStorage.getItem("userId");
     if (!accessToken || !courseId) return;
     try {
       const response = await fetch(
-        `http://0.0.0.0:8000/api/v1/course/${courseId}/applications`,
+        `http://0.0.0.0:8000/api/v1/course/${userId}/applications`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

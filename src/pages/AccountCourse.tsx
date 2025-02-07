@@ -7,9 +7,14 @@ interface TaskItem {
   task: string;
 }
 
+interface TestData {
+  testId: number;
+  tasks: TaskItem[];
+}
+
 interface CourseTestData {
   courseId: number;
-  tests: TaskItem[][];
+  tests: TestData[];
 }
 
 const AccountCourse: React.FC = () => {
@@ -18,8 +23,7 @@ const AccountCourse: React.FC = () => {
     courseId: string;
   }>();
 
-  const [courseTests, setCourseTests] = useState<TaskItem[][]>([]);
-
+  const [courseTests, setCourseTests] = useState<TestData[]>([]);
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
   useEffect(() => {
@@ -39,6 +43,7 @@ const AccountCourse: React.FC = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch unresolved tests");
         }
+
         const data: CourseTestData[] = await response.json();
 
         const courseData = data.find(
@@ -59,8 +64,44 @@ const AccountCourse: React.FC = () => {
     setAnswers((prev) => ({ ...prev, [taskId]: value }));
   };
 
-  const handleTestSubmit = (testIndex: number) => {
-    alert(`Submit clicked for Test #${testIndex + 1} (functionality pending...)`);
+  const handleTestSubmit = async (test: TestData) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("No access token found.");
+      return;
+    }
+
+    try {
+      const testAnswersObj: Record<string, string> = {};
+      test.tasks.forEach((taskItem) => {
+        testAnswersObj[taskItem.taskId] = answers[taskItem.taskId] || "";
+      });
+
+      const payload = {
+        testId: test.testId,
+        testAnswers: [testAnswersObj],
+        accountId: Number(accountId),
+      };
+
+      const response = await fetch("http://0.0.0.0:8000/api/v1/course/solveTest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit test");
+      }
+
+      const result = await response.json();
+      alert(`Test #${test.testId} submitted successfully! Response: ${JSON.stringify(result)}`);
+    } catch (error) {
+      console.error("Error submitting test:", error);
+      alert("Error submitting test. See console for details.");
+    }
   };
 
   return (
@@ -74,20 +115,22 @@ const AccountCourse: React.FC = () => {
         {courseTests.length === 0 ? (
           <p>No unresolved tests for this course.</p>
         ) : (
-          courseTests.map((test, testIndex) => (
-            <div key={testIndex} className="card p-3 mb-4">
-              <h5 className="mb-3">Test #{testIndex + 1}</h5>
+          courseTests.map((testItem, idx) => (
+            <div key={testItem.testId} className="card p-3 mb-4">
+              <h5 className="mb-3">
+                Test #{idx + 1} (ID: {testItem.testId})
+              </h5>
 
-              {test.map((taskItem) => (
-                <div key={taskItem.taskId} className="d-flex align-items-center mb-2">
-                  <span style={{ minWidth: "80px" }}>{taskItem.task}</span>
+              {testItem.tasks.map((task) => (
+                <div key={task.taskId} className="d-flex align-items-center mb-2">
+                  <span style={{ minWidth: "80px" }}>{task.task}</span>
                   <input
                     type="text"
                     className="form-control ms-2"
                     style={{ width: "120px" }}
                     placeholder="Your answer"
-                    value={answers[taskItem.taskId] || ""}
-                    onChange={(e) => handleAnswerChange(taskItem.taskId, e.target.value)}
+                    value={answers[task.taskId] || ""}
+                    onChange={(e) => handleAnswerChange(task.taskId, e.target.value)}
                   />
                 </div>
               ))}
@@ -95,7 +138,7 @@ const AccountCourse: React.FC = () => {
               <div className="text-end mt-3">
                 <button
                   className="btn btn-primary"
-                  onClick={() => handleTestSubmit(testIndex)}
+                  onClick={() => handleTestSubmit(testItem)}
                 >
                   Submit
                 </button>

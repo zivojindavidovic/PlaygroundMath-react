@@ -66,7 +66,7 @@ const Account: React.FC = () => {
 
     const fetchCourses = async () => {
       try {
-        const response = await fetch("http://0.0.0.0:8000/api/v1/course/10/list", {
+        const response = await fetch(`http://0.0.0.0:8000/api/v1/course/${accountId}/list`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
