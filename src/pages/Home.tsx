@@ -22,6 +22,7 @@ const Home: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [username, setUsername] = useState("");
   const [age, setAge] = useState(1);
+  const [formErrors, setFormErrors] = useState<{ username?: string; age?: string }>({});
   const navigate = useNavigate();
   const isTeacher = localStorage.getItem("isTeacher") === "true";
 
@@ -55,6 +56,8 @@ const Home: React.FC = () => {
   }, [isTeacher]);
 
   const handleCreateUser = async () => {
+    setFormErrors({});
+
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
       console.error("No access token found");
@@ -69,11 +72,34 @@ const Home: React.FC = () => {
         },
         body: JSON.stringify({ username, age })
       });
-      if (!response.ok) {
-        throw new Error("Failed to create user");
+
+      const data = await response.json();
+
+      if (data.success) {
+        setShowModal(false);
+
+        fetch(`http://0.0.0.0:8000/api/v1/account/user/${localStorage.getItem("userId")}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+          .then(response => response.json())
+          .then(updatedData => setAccounts(updatedData.accounts))
+          .catch(error => console.error("Failed to re-fetch accounts", error));
+      } else {
+        const newFormErrors: { username?: string; age?: string } = {};
+
+        data.errors.forEach((errorObj: any) => {
+          if (errorObj.username) {
+            newFormErrors.username = errorObj.username;
+          }
+          if (errorObj.age) {
+            newFormErrors.age = errorObj.age;
+          }
+        });
+
+        setFormErrors(newFormErrors);
       }
-      setShowModal(false);
-      window.location.reload();
     } catch (error) {
       console.error("Error creating user", error);
     }
@@ -199,6 +225,10 @@ const Home: React.FC = () => {
                   value={username}
                   onChange={e => setUsername(e.target.value)}
                 />
+                {formErrors.username && (
+                  <div className="text-danger mb-2">{formErrors.username}</div>
+                )}
+
                 <select
                   className="form-control mb-2"
                   value={age}
@@ -210,6 +240,11 @@ const Home: React.FC = () => {
                     </option>
                   ))}
                 </select>
+                {formErrors.age && (
+                  <div className="text-danger mb-2">{formErrors.age}</div>
+                )}
+
+                {/* Create button */}
                 <button className="btn btn-success w-100" onClick={handleCreateUser}>
                   Create User
                 </button>
