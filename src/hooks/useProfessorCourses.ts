@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Course } from '../types/course';
-import { CourseService } from '../services/CourseService';
+import { CourseService } from '../services/courseService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
