@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/useRegister";
 import userImage from "../../assets/profile.png";
-import "../../styles/LoginComponent.scss";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
