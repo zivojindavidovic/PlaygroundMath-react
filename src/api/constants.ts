@@ -7,6 +7,11 @@ export const ENDPOINTS = {
     REGISTER: '/user/register'
   },
   ACCOUNT: {
-    RANK_LIST: '/account/rankList'
+    RANK_LIST: '/account/rankList',
+    GET_ALL: '/account/getAll',
+    DELETE: '/account/delete'
+  },
+  USER: {
+    DELETE: '/user/delete'
   }
 }; 

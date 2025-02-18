@@ -1,0 +1,256 @@
+.profile-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
+  padding: 24px;
+  color: white;
+  text-align: center;
+
+  h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+  }
+}
+
+.profile-content {
+  padding: 24px;
+}
+
+.profile-section {
+  margin-bottom: 32px;
+
+  h3 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+}
+
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+    background: #fff5f5;
+  }
+}
+
+.account-info {
+  h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: #666;
+  }
+}
+
+.delete-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    color: #333;
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+.modal-body {
+  padding: 20px;
+
+  .password-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 12px;
+
+    &:focus {
+      outline: none;
+      border-color: #FF9B9B;
+    }
+  }
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+  }
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .cancel-button {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #666;
+
+    &:hover {
+      background: #e2e6ea;
+    }
+  }
+
+  .confirm-button {
+    background: #dc3545;
+    border: none;
+    color: white;
+
+    &:hover {
+      background: #c82333;
+    }
+  }
+}
+
+.loading {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+.no-accounts {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 10px;
+  }
+
+  .profile-header {
+    padding: 16px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .profile-content {
+    padding: 16px;
+  }
+
+  .account-item {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+} 
