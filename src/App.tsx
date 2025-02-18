@@ -3,7 +3,6 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import AuthGuard from './component/AuthGuard';
-import AccountList from './component/AccountList';
 import ProfessorComponent from './component/ProfessorComponent';
 import ProfessorsComponent from './component/ProfessorsComponent';
 import GameComponent from './component/GameComponent';
@@ -15,6 +14,7 @@ import ConfirmAccount from './pages/ConfirmAccount';
 import RankList from './components/ranklist/RankList';
 import Profile from './components/profile/Profile';
 import CreateAccount from './components/account/CreateAccount';
+import AccountList from './components/account/AccountList';
 
 const App: React.FC = () => {
   return (

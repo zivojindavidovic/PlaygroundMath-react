@@ -10,3 +10,17 @@ export interface CreateAccountResponse {
     age?: string;
   }[];
 } 
+
+export interface Account {
+  accountId: number;
+  username: string;
+  points: number;
+}
+
+export interface AccountsResponse {
+  success: boolean;
+  results?: [{
+    accounts: Account[];
+  }];
+  errors?: Record<string, string>[];
+}
