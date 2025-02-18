@@ -1,12 +1,12 @@
 import React from "react"
 
 import "../styles/LoginPage.scss"
-import RegisterComponent from "../component/RegisterComponent";
+import Register from "../components/auth/Register";
 
 const RegisterPage: React.FC = () => {
     return (
         <div className="guest">
-            <RegisterComponent />
+            <Register />
         </div>
     )
 }

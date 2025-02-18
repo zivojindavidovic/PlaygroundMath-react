@@ -13,3 +13,14 @@ export interface LoginResponse {
     isTeacher: boolean;
   }];
 } 
+
+export interface RegisterCredentials {
+  email: string;
+  password: string;
+  accountType: 'PARENT' | 'TEACHER';
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  errors?: Record<string, string>[];
+}
