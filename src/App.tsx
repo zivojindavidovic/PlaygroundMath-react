@@ -16,6 +16,8 @@ import CreateCourse from './components/courses/CreateCourse';
 import Professor from './components/professor/Professor';
 import Game from './components/game/Game';
 import { useEffect, useState } from 'react';
+import AdminAccounts from './components/admin/AdminAccounts';
+import AdminUsers from './components/admin/AdminUsers';
 
 const App: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState(false);
@@ -68,6 +70,8 @@ const App: React.FC = () => {
           <Route path="create-course" element={<CreateCourse />} />
           <Route path="professor-courses/:courseId" element={<ProfessorCourseComponent />} />
           <Route path="confirm" element={<ConfirmAccount />} />
+          <Route path="admin/users" element={<AdminUsers />} />
+          <Route path="admin/accounts" element={<AdminAccounts />} />
         </Route>
       </Routes>
     </Router>

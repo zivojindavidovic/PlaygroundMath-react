@@ -83,7 +83,18 @@ const DashboardPage: React.FC = () => {
             </div>
           )}
 
-          {isAdmin && <div className="menu-items">Admin</div>}
+          {isAdmin && (
+            <div className="menu-items">
+              <Link to="/admin/users" className="menu-item">
+                <i className="fas fa-users"></i>
+                <span>Svi korisnici</span>
+              </Link>
+              <Link to="/admin/accounts" className="menu-item">
+                <i className="fas fa-user-circle"></i>
+                <span>Svi nalozi</span>
+              </Link>
+            </div>
+          )}
         </nav>
 
         <main className="dashboard-content">

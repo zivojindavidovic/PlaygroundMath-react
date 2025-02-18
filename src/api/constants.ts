@@ -28,5 +28,12 @@ export const ENDPOINTS = {
     GENERATE: '/task/generate',
     SOLVE: '/task/solve',
     UNRESOLVED: '/task/unresolved'
+  },
+  ADMIN: {
+    USERS: '/admin/users',
+    ACCOUNTS: '/admin/accounts',
+    DELETEUSER: '/admin/delete-user',
+    DELETEACCOUNT: '/admin/delete-account',
+    UPDATEPOINTS: '/admin/update-account-points'
   }
 }; 
