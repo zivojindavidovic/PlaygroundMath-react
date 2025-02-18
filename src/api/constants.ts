@@ -13,6 +13,7 @@ export const ENDPOINTS = {
     DELETE: '/account/delete'
   },
   USER: {
+    TEACHERS: '/user/teachers',
     DELETE: '/user/delete'
   }
 }; 

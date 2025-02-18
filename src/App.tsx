@@ -4,7 +4,6 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import AuthGuard from './component/AuthGuard';
 import ProfessorComponent from './component/ProfessorComponent';
-import ProfessorsComponent from './component/ProfessorsComponent';
 import GameComponent from './component/GameComponent';
 import ProfessorCourses from './component/ProfessorCourses';
 import Applications from './component/Applications';
@@ -15,6 +14,7 @@ import RankList from './components/ranklist/RankList';
 import Profile from './components/profile/Profile';
 import CreateAccount from './components/account/CreateAccount';
 import AccountList from './components/account/AccountList';
+import Professors from './components/professors/Professors';
 
 const App: React.FC = () => {
   return (
@@ -33,7 +33,7 @@ const App: React.FC = () => {
         >
           <Route path="accounts" element={<AccountList />} />
           <Route path="create-account" element={<CreateAccount />} />
-          <Route path="professors" element={<ProfessorsComponent />} />
+          <Route path="professors" element={<Professors />} />
           <Route path="professors/:teacherId" element={<ProfessorComponent />} />
           <Route path="rank-list" element={<RankList />} />
           <Route path="profile" element={<Profile />} />

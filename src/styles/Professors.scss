@@ -1,0 +1,150 @@
+.professors-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.professors-header {
+  text-align: center;
+  margin-bottom: 40px;
+  
+  h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: #666;
+    font-size: 1.1rem;
+  }
+}
+
+.professors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+.professor-card {
+  background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
+  border-radius: 24px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 32px rgba(255, 155, 155, 0.2);
+  }
+}
+
+.professor-info {
+  color: white;
+}
+
+.professor-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: white;
+  opacity: 0.9;
+}
+
+.professor-email {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 12px 0;
+  word-break: break-all;
+}
+
+.courses-count {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.no-professors {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
+  h5 {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px;
+  color: #dc3545;
+}
+
+// Responsive styles
+@media (max-width: 1200px) {
+  .professors-container {
+    padding: 15px;
+  }
+  
+  .professors-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .professors-header {
+    margin-bottom: 30px;
+    
+    h2 {
+      font-size: 1.8rem;
+    }
+    
+    p {
+      font-size: 1rem;
+    }
+  }
+  
+  .professor-card {
+    padding: 20px;
+  }
+  
+  .professor-icon {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .professors-container {
+    padding: 10px;
+  }
+  
+  .professors-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 10px;
+  }
+  
+  .professors-header {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .professor-email {
+    font-size: 1.1rem;
+  }
+} 
