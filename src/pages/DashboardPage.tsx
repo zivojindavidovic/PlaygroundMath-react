@@ -1,10 +1,9 @@
-import React from "react";
-
-import "../styles/Dashboard.scss";
-import { Outlet } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, Link } from "react-router-dom";
+import "../styles/Dashboard.scss";  
 
 const DashboardPage: React.FC = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isTeacher = localStorage.getItem("isTeacher") === "true";
   const isAdmin = localStorage.getItem("isAdmin") === "true";
 
@@ -21,58 +20,84 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="dashboard">
-      <div className="header">
-        <p className="logo">GetITMath</p>
-        <button className="btn btn-dark" onClick={handleLogout}>
-          Izloguj se
-        </button>
-      </div>
-      <div className="page-layout">
-        <div className="left-side-menu">
+      <header className="dashboard-header">
+        <div className="header-content">
+          <h1 className="logo">GetITMath</h1>
+          <button className="logout-button" onClick={handleLogout}>
+            Izloguj se
+          </button>
+        </div>
+      </header>
+
+      <div className="dashboard-layout">
+        <nav className={`sidebar ${isMobileMenuOpen ? 'active' : ''}`}>
           {!isTeacher && !isAdmin && (
-            <div>
-              <Link className="link" to={"/accounts"}>
-                Nalozi
+            <div className="menu-items">
+              <Link to="/accounts" className="menu-item">
+                <i className="fas fa-users"></i>
+                <span>Nalozi</span>
               </Link>
-              <Link className="link" to={"/create-account"}>
-                Kreiraj nalog
+              <Link to="/create-account" className="menu-item">
+                <i className="fas fa-user-plus"></i>
+                <span>Kreiraj nalog</span>
               </Link>
-              <Link className="link" to={"/professors"}>
-                Profesori
+              <Link to="/professors" className="menu-item">
+                <i className="fas fa-chalkboard-teacher"></i>
+                <span>Profesori</span>
               </Link>
-              <Link className="link" to={"/rank-list"}>
-                Rang lista
+              <Link to="/rank-list" className="menu-item">
+                <i className="fas fa-trophy"></i>
+                <span>Rang lista</span>
               </Link>
-              <Link className="link" to={"/profile"}>
-                Profil
+              <Link to="/profile" className="menu-item">
+                <i className="fas fa-user"></i>
+                <span>Profil</span>
               </Link>
             </div>
           )}
 
           {isTeacher && !isAdmin && (
-            <div>
-              <Link className="link" to={"/professor-courses"}>
-                Moji kursevi
+            <div className="menu-items">
+              <Link to="/professor-courses" className="menu-item">
+                <i className="fas fa-book"></i>
+                <span>Moji kursevi</span>
               </Link>
-              <Link className="link" to={"/create-course"}>
-                Kreiraj kurs
+              <Link to="/create-course" className="menu-item">
+                <i className="fas fa-plus-circle"></i>
+                <span>Kreiraj kurs</span>
               </Link>
-              <Link className="link" to={"/applications"}>
-                Aplikacije
+              <Link to="/applications" className="menu-item">
+                <i className="fas fa-clipboard-list"></i>
+                <span>Aplikacije</span>
               </Link>
-              <Link className="link" to={"/profile"}>
-                Profil
+              <Link to="/profile" className="menu-item">
+                <i className="fas fa-user"></i>
+                <span>Profil</span>
               </Link>
             </div>
           )}
 
-          {isAdmin && !isTeacher && !isTeacher && !isAdmin && <div>Admin</div>}
-        </div>
-        <div className="content">
+          {isAdmin && <div className="menu-items">Admin</div>}
+        </nav>
+
+        <main className="dashboard-content">
           <Outlet />
-        </div>
+        </main>
+
+        {/* Mobile Menu Toggle Button */}
+        <button 
+          className="mobile-menu-toggle"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle mobile menu"
+        >
+          <i className={`fas fa-${isMobileMenuOpen ? 'times' : 'bars'}`}></i>
+        </button>
       </div>
     </div>
   );
