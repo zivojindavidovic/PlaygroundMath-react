@@ -1,0 +1,160 @@
+.rank-list-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rank-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.rank-header {
+  background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
+  padding: 24px;
+  color: white;
+  text-align: center;
+
+  h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+}
+
+.rank-list {
+  padding: 20px;
+}
+
+.rank-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin: 8px 0;
+  border-radius: 12px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+    background: #fff5f5;
+  }
+
+  &.top-1 {
+    background: linear-gradient(135deg, #FFD700 0%, #FFC800 100%);
+    color: white;
+  }
+
+  &.top-2 {
+    background: linear-gradient(135deg, #C0C0C0 0%, #B8B8B8 100%);
+    color: white;
+  }
+
+  &.top-3 {
+    background: linear-gradient(135deg, #CD7F32 0%, #C77631 100%);
+    color: white;
+  }
+}
+
+.rank-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rank-number {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.points-value {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.points-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.loading-spinner {
+  padding: 40px;
+  text-align: center;
+  color: #666;
+}
+
+.error-message {
+  padding: 20px;
+  text-align: center;
+  color: #dc3545;
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .rank-list-container {
+    padding: 10px;
+  }
+
+  .rank-header {
+    padding: 16px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .rank-item {
+    padding: 12px;
+    margin: 6px 0;
+  }
+
+  .username {
+    font-size: 1rem;
+  }
+
+  .points-value {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rank-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .rank-info {
+    justify-content: center;
+  }
+
+  .points {
+    align-items: center;
+  }
+} 

@@ -5,5 +5,8 @@ export const ENDPOINTS = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     REGISTER: '/user/register'
+  },
+  ACCOUNT: {
+    RANK_LIST: '/account/rankList'
   }
 }; 

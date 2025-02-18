@@ -5,7 +5,6 @@ import DashboardPage from './pages/DashboardPage';
 import AuthGuard from './component/AuthGuard';
 import AccountList from './component/AccountList';
 import CreateAccount from './component/CreateAccount';
-import RankList from './component/RankList';
 import Profile from './component/Profile';
 import ProfessorComponent from './component/ProfessorComponent';
 import ProfessorsComponent from './component/ProfessorsComponent';
@@ -15,6 +14,7 @@ import Applications from './component/Applications';
 import CreateCourse from './component/CreateCourse';
 import ProfessorCourseComponent from './component/ProfessorCourseComponent';
 import ConfirmAccount from './pages/ConfirmAccount';
+import RankList from './components/ranklist/RankList';
 
 const App: React.FC = () => {
   return (
