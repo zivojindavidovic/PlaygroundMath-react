@@ -17,6 +17,7 @@ export const ENDPOINTS = {
     DELETE: '/user/delete'
   },
   COURSE: {
+    CREATE: '/course/create',
     APPLICATIONS: '/course/applications',
     RESOLVE_APPLICATION: '/course/resolveApplication',
     MY_COURSES: '/course/myCourses'

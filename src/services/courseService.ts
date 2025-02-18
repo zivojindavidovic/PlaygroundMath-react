@@ -1,5 +1,5 @@
 import { API_BASE_URL, ENDPOINTS } from '../api/constants';
-import { CoursesResponse } from '../types/course';
+import { CoursesResponse, CreateCourseData, CreateCourseResponse } from '../types/course';
 
 export class CourseService {
   static async getMyCourses(): Promise<CoursesResponse> {
@@ -13,6 +13,25 @@ export class CourseService {
     
     if (!response.ok) {
       throw new Error('Failed to fetch courses');
+    }
+    
+    return await response.json();
+  }
+
+  static async createCourse(data: CreateCourseData): Promise<CreateCourseResponse> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.COURSE.CREATE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to create course');
     }
     
     return await response.json();
