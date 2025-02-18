@@ -10,13 +10,15 @@ export const ENDPOINTS = {
     CREATE: '/account/create',
     RANK_LIST: '/account/rankList',
     GET_ALL: '/account/getAll',
-    DELETE: '/account/delete'
+    DELETE: '/account/delete',
   },
   USER: {
     TEACHERS: '/user/teachers',
     DELETE: '/user/delete'
   },
   COURSE: {
+    ALL: '/course/all',
+    APPLY: '/course/apply',
     CREATE: '/course/create',
     APPLICATIONS: '/course/applications',
     RESOLVE_APPLICATION: '/course/resolveApplication',
