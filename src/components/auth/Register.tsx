@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/useRegister";
-import userImage from "../../assets/profile.png";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,58 +20,83 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="login">
-      <img src={userImage} alt="Logo img" className="login-user-image" />
-      <input
-        type="email"
-        placeholder="E-Adresa"
-        className="login-input-field"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {emailError && <div className="alert alert-danger">{emailError}</div>}
-      <input
-        type="password"
-        placeholder="Šifra"
-        className="login-input-field"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {passwordError && <div className="alert alert-danger password-error">{passwordError}</div>}
-      <input
-        type="password"
-        placeholder="Ponovi šifru"
-        className="login-input-field"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
+    <div className="login-container">
+      <div className="login-card">
+        <h1 className="welcome-text">Registracija</h1>
+        <div className="login-content">
+          <div className="login-form">
+            <div className="input-group">
+              <label htmlFor="email">E-Adresa</label>
+              <input
+                id="email"
+                type="email"
+                className="login-input-field"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {emailError && <div className="error-message">{emailError}</div>}
+            </div>
 
-      <div className="register-account-type">
-        <span className="account-type-label">Registrujem se kao:</span>
-        <button
-          className={`btn ${accountType === "PARENT" ? "btn-dark" : "btn-outline-dark"}`}
-          onClick={() => setAccountType("PARENT")}
-        >
-          Roditelj
-        </button>
-        <button
-          className={`btn ms-2 ${accountType === "TEACHER" ? "btn-dark" : "btn-outline-dark"}`}
-          onClick={() => setAccountType("TEACHER")}
-        >
-          Učitelj
-        </button>
+            <div className="input-group">
+              <label htmlFor="password">Šifra</label>
+              <input
+                id="password"
+                type="password"
+                className="login-input-field"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {passwordError && <div className="error-message">{passwordError}</div>}
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="confirmPassword">Ponovi šifru</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                className="login-input-field"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="account-type-container">
+              <label>Registrujem se kao:</label>
+              <div className="account-type-buttons">
+                <button
+                  className={`account-type-btn ${accountType === "PARENT" ? "active" : ""}`}
+                  onClick={() => setAccountType("PARENT")}
+                  type="button"
+                >
+                  Roditelj
+                </button>
+                <button
+                  className={`account-type-btn ${accountType === "TEACHER" ? "active" : ""}`}
+                  onClick={() => setAccountType("TEACHER")}
+                  type="button"
+                >
+                  Učitelj
+                </button>
+              </div>
+            </div>
+
+            <button 
+              className="login-button"
+              onClick={handleRegister}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Učitavanje...' : 'Registruj se'}
+            </button>
+
+            <p className="no-account-text">
+              Već imaš nalog? <Link to="/login">Uloguj se</Link>
+            </p>
+          </div>
+          <div className="login-illustration">
+            <img src="/path-to-your-kids-illustration.png" alt="Kids learning" />
+          </div>
+        </div>
       </div>
-
-      <p className="no-account-text">
-        Već imaš nalog? <Link to="/login">Uloguj se</Link>
-      </p>
-      <button 
-        className="login-button" 
-        onClick={handleRegister}
-        disabled={isLoading}
-      >
-        {isLoading ? 'Učitavanje...' : 'Registruj se'}
-      </button>
     </div>
   );
 };

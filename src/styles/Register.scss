@@ -1,0 +1,78 @@
+@import './Login.scss';
+
+.account-type-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+
+  label {
+    color: #666;
+    font-size: 0.9rem;
+  }
+}
+
+.account-type-buttons {
+  display: flex;
+  gap: 10px;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.account-type-btn {
+  flex: 1;
+  padding: 12px 24px;
+  border: 2px solid #FF9B9B;
+  border-radius: 12px;
+  background: white;
+  color: #FF9B9B;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 155, 155, 0.1);
+  }
+
+  &.active {
+    background: #FF9B9B;
+    color: white;
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .login-card {
+    padding: 20px;
+  }
+
+  .welcome-text {
+    font-size: 2rem;
+  }
+
+  .login-content {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 15px;
+  }
+
+  .input-group {
+    gap: 5px;
+  }
+
+  .login-button {
+    padding: 12px;
+  }
+}
