@@ -38,9 +38,9 @@ const CreateCourse: React.FC = () => {
 
     return (
         <div className="card shadow-sm p-3 mb-4">
-            <h3 className="text-center">Create Course</h3>
+            <h3 className="text-center">Kreiraj kurs</h3>
             <div className="mb-3">
-                <label className="form-label">Age</label>
+                <label className="form-label">Godine za koje je kurs namenjen</label>
                 <select className="form-control" value={age} onChange={(e) => setAge(Number(e.target.value))}>
                     {[...Array(10).keys()].map((i) => (
                         <option key={i + 1} value={i + 1}>
@@ -50,7 +50,7 @@ const CreateCourse: React.FC = () => {
                 </select>
             </div>
             <div className="mb-3">
-                <label className="form-label">Due Date</label>
+                <label className="form-label">Datum završetka kursa</label>
                 <input
                     type="date"
                     className="form-control"
@@ -59,7 +59,7 @@ const CreateCourse: React.FC = () => {
                 />
             </div>
             <button className="btn btn-primary w-100" onClick={handleCreateCourse}>
-                Create Course
+                Kreiraj kurs
             </button>
         </div>
     );

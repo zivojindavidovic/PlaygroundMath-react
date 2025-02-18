@@ -1,0 +1,30 @@
+.accounts-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+
+    .account-card {
+        background-color: #C33764;
+        border-radius: 5px;
+        width: 250px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        .account-points {
+            font-size: 64px;
+            color: white;
+        }
+
+        .account-username {
+            color: white;
+        }
+    }
+
+    .account-card:hover {
+        cursor: pointer;
+    }
+}

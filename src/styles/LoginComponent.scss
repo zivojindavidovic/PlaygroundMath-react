@@ -1,0 +1,57 @@
+.login {
+    display: flex;
+    flex-direction: column;
+
+    .login-user-image {
+        width: 150px;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+
+    .login-input-field {
+        background-color: rgba($color: #000000, $alpha: 0.0);
+        width: 300px;
+        height: 50px;
+        margin-bottom: 30px;
+        border: 1px solid white;
+        border-radius: 5px;
+        color: rgb(39, 35, 35);
+        padding: 10px;
+    }
+
+    .password-error {
+        width: 300px;
+    }
+
+    .login-input-field::placeholder {
+        color: rgb(39, 35, 35);
+    }
+
+    .login-input-field:focus {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .no-account-text {
+        color: white;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+
+    .login-button {
+        width: 300px;
+        height: 50px;
+        background-color: rgb(39, 35, 35);
+        color: white;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .register-account-type {
+        margin-bottom: 20px;
+
+        .account-type-label {
+            color: white;
+        }
+    }
+}
