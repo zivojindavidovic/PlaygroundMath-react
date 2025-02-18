@@ -15,5 +15,8 @@ export const ENDPOINTS = {
   USER: {
     TEACHERS: '/user/teachers',
     DELETE: '/user/delete'
+  },
+  COURSE: {
+    MY_COURSES: '/course/myCourses'
   }
 }; 
