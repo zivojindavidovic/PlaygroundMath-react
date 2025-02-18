@@ -23,5 +23,10 @@ export const ENDPOINTS = {
     APPLICATIONS: '/course/applications',
     RESOLVE_APPLICATION: '/course/resolveApplication',
     MY_COURSES: '/course/myCourses'
+  },
+  TASK: {
+    GENERATE: '/task/generate',
+    SOLVE: '/task/solve',
+    UNRESOLVED: '/task/unresolved'
   }
 }; 

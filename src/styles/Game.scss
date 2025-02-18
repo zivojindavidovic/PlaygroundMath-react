@@ -1,0 +1,158 @@
+.game {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+    background: white;
+  }
+
+  .game-config {
+    h4 {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 2px solid #eee;
+      padding: 10px;
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: #FF9B9B;
+        box-shadow: none;
+      }
+    }
+
+    .form-check {
+      .form-check-input {
+        &:checked {
+          background-color: #FF9B9B;
+          border-color: #FF9B9B;
+        }
+      }
+    }
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+
+    input {
+      width: 80px;
+      text-align: center;
+    }
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &-primary {
+      background: #FF9B9B;
+      border: none;
+
+      &:hover:not(:disabled) {
+        background: #ff8282;
+        transform: translateY(-2px);
+      }
+
+      &:disabled {
+        background: #ffb5b5;
+      }
+    }
+
+    &-success {
+      background: #28a745;
+      border: none;
+
+      &:hover {
+        background: #218838;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .test-container {
+    background: #f8f9fa;
+    margin-top: 16px;
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .game {
+    padding: 15px;
+
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tasks-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .task-item {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .game {
+    padding: 10px;
+
+    .card {
+      padding: 16px !important;
+    }
+
+    .row {
+      margin: 0;
+    }
+
+    [class*="col-"] {
+      padding: 0;
+      margin-bottom: 16px;
+    }
+  }
+} 

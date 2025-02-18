@@ -14,4 +14,4 @@ export const storage = {
   clearAuth: () => {
     localStorage.clear();
   }
-}; 
+};
