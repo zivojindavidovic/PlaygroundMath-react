@@ -1,72 +1,168 @@
 .admin-container {
-  padding: 2rem;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   h2 {
-    margin-bottom: 2rem;
+    text-align: center;
     color: #333;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-weight: 700;
   }
 
   .users-list,
   .accounts-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
   }
 
   .user-item,
   .account-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
   }
 
   .user-info,
   .account-info {
     display: flex;
-    gap: 1rem;
+    gap: 20px;
     align-items: center;
+
+    .user-email,
+    .account-username {
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .user-type {
+      background: #FF9B9B;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
   }
 
   .points-control {
     display: flex;
-    gap: 0.5rem;
+    gap: 12px;
     align-items: center;
   }
 
   .points-input {
-    width: 80px;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 100px;
+    padding: 10px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #FF9B9B;
+      box-shadow: 0 0 0 4px rgba(255, 155, 155, 0.1);
+      outline: none;
+    }
   }
 
   .save-button {
-    padding: 0.5rem 1rem;
-    background: #4CAF50;
+    background: #FF9B9B;
     color: white;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
-      background: #45a049;
+      background: #FF8383;
+      transform: translateY(-1px);
     }
   }
 
   .delete-button {
-    padding: 0.5rem 1rem;
-    background: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    background: white;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     &:hover {
-      background: #da190b;
+      background: #dc3545;
+      color: white;
+      transform: translateY(-1px);
+    }
+  }
+
+  // Loading and error states
+  .loading, .error {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .error {
+    color: #dc3545;
+  }
+
+  // Responsive styles
+  @media (max-width: 768px) {
+    padding: 15px;
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .user-item,
+    .account-item {
+      padding: 15px;
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+
+    .user-info,
+    .account-info {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .points-control {
+      flex-direction: column;
+      width: 100%;
+
+      .points-input {
+        width: 100%;
+      }
+
+      .save-button {
+        width: 100%;
+      }
+    }
+
+    .delete-button {
+      width: 100%;
     }
   }
 } 
