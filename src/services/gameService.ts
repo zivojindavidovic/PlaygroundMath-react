@@ -28,7 +28,7 @@ export class GameService {
     return await response.json();
   }
 
-  static async solveTasks(data: SolveTaskRequest): Promise<{ pointsFromTest: number }> {
+  static async solveTasks(data: SolveTaskRequest): Promise<{ pointsFromTest: number; totalPoints: number }> {
     const accessToken = localStorage.getItem('accessToken');
     
     const response = await fetch(`${API_BASE_URL}${ENDPOINTS.TASK.SOLVE}`, {
@@ -44,7 +44,12 @@ export class GameService {
       throw new Error('Failed to solve tasks');
     }
     
-    return await response.json();
+    const result = await response.json();
+    
+    return {
+      pointsFromTest: result.results[0].pointsFromTest,
+      totalPoints: result.results[0].totalPoints
+    };
   }
 
   static async getUnresolvedTasks(accountId: string): Promise<ApiResponse<TaskResult>> {

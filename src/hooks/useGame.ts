@@ -32,6 +32,9 @@ export const useGame = () => {
   const [unresolvedTests, setUnresolvedTests] = useState<Record<number, UnresolvedTest[]>>({});
   const [unresolvedTestResponses, setUnresolvedTestResponses] = useState<Record<number, Record<number, string>>>({});
 
+  const [showPointsModal, setShowPointsModal] = useState(false);
+  const [pointsData, setPointsData] = useState<{ pointsFromTest: number; totalPoints: number } | null>(null);
+
   useEffect(() => {
     if (!accountId) return;
 
@@ -104,10 +107,27 @@ export const useGame = () => {
     });
   };
 
-  const handleCreateTasks = async () => {
+  useEffect(() => {
+    if (testType === "online") {
+      setOnlineTasks([]);
+      setOnlineResponses({});
+    } else {
+      setPdfTasks([]);
+    }
+  }, [testType]);
+  
+  const handleCreateTasks = async (e: React.MouseEvent) => {
+    e.preventDefault();
     if (!accountId) return;
-
+  
     try {
+      if (testType === "online") {
+        setOnlineTasks([]);
+        setOnlineResponses({});
+      } else {
+        setPdfTasks([]);
+      }
+  
       const data = await GameService.generateTasks({
         numberOneFrom,
         numberOneTo,
@@ -122,16 +142,30 @@ export const useGame = () => {
         allowedBiggerUnitsInSecondNumberSub,
         allowedThreeDigitsResultMul,
       });
-
-      if (data.success && data.results.length > 0) {
+  
+      console.log('Full API Response:', data);
+  
+      if (data.success && data.results && data.results.length > 0) {
         const result = data.results[0];
+        console.log('Result from API:', result);
+  
         if (result.type === "pdf") {
           setPdfTasks(result.tasks as string[]);
         } else if (result.type === "online") {
-          setOnlineTasks(result.tasks as OnlineTask[]);
+          const unresolvedData = await GameService.getUnresolvedTasks(accountId);
+          console.log('Unresolved tasks response:', unresolvedData);
+          
+          if (unresolvedData.success && unresolvedData.results && unresolvedData.results.length > 0) {
+            const unresolvedResult = unresolvedData.results[0];
+            if (unresolvedResult.type === "online" && Array.isArray(unresolvedResult.tasks)) {
+              setOnlineTasks(unresolvedResult.tasks as OnlineTask[]);
+              setOnlineResponses({});
+            }
+          }
         }
       }
     } catch (error) {
+      console.error('Error generating tasks:', error);
       toast.error('Failed to create tasks');
     }
   };
@@ -174,19 +208,28 @@ export const useGame = () => {
 
   const handleSubmitOnlineTasks = async () => {
     if (!accountId) return;
-
+  
+    const hasEmptyFields = Object.values(onlineResponses).some(value => !value.trim());
+    if (hasEmptyFields) {
+      toast.error('Sva polja moraju biti popunjena');
+      return;
+    }
+  
     try {
       const answersObject: Record<string, string> = {};
       Object.keys(onlineResponses).forEach((key) => {
         answersObject[key] = onlineResponses[parseInt(key, 10)];
       });
-
+  
       const data = await GameService.solveTasks({
         testAnswers: [answersObject],
         accountId: Number(accountId),
       });
-
-      toast.success(`You won ${data.pointsFromTest} points from this test!`);
+  
+      setShowPointsModal(true);
+      setPointsData(data);
+      setOnlineTasks([]);
+      setOnlineResponses({});
     } catch (error) {
       toast.error('Failed to submit tasks');
     }
@@ -240,6 +283,9 @@ export const useGame = () => {
     courses,
     unresolvedTests,
     unresolvedTestResponses,
+    showPointsModal,
+    pointsData,
+    setShowPointsModal,
     setNumberOneFrom,
     setNumberOneTo,
     setNumberTwoFrom,

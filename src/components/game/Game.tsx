@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGame } from "../../hooks/useGame";
 import "../../styles/Game.scss";
+import PointsModal from '../common/PointsModal';
 
 const Game: React.FC = () => {
   const {
@@ -21,6 +22,9 @@ const Game: React.FC = () => {
     courses,
     unresolvedTests,
     unresolvedTestResponses,
+    showPointsModal,
+    pointsData,
+    setShowPointsModal,  // Add this line
     setNumberOneFrom,
     setNumberOneTo,
     setNumberTwoFrom,
@@ -40,7 +44,9 @@ const Game: React.FC = () => {
     handleSubmitUnresolvedTest,
   } = useGame();
 
-  const isCreateTasksDisabled = testType === "online" && onlineTasks.length > 0;
+  const isCreateTasksDisabled = testType === "online" && (onlineTasks?.length ?? 0) > 0;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="game">
@@ -208,13 +214,17 @@ const Game: React.FC = () => {
         </div>
       </div>
 
-          <button
-            className="btn btn-primary"
-            onClick={handleCreateTasks}
-            disabled={isCreateTasksDisabled}
-          >
-            Generiši zadatke
-          </button>
+      <button
+        className="btn btn-primary"
+        onClick={async (e) => {
+          setIsLoading(true);
+          await handleCreateTasks(e);
+          setIsLoading(false);
+        }}
+        disabled={isCreateTasksDisabled || isLoading}
+      >
+        {isLoading ? 'Generisanje...' : 'Generiši zadatke'}
+      </button>
         </div>
 
         {testType === "pdf" && pdfTasks.length > 0 && (
@@ -233,9 +243,9 @@ const Game: React.FC = () => {
           </div>
         )}
 
-        {testType === "online" && onlineTasks.length > 0 && (
+        {testType === "online" && onlineTasks && Array.isArray(onlineTasks) && onlineTasks.length > 0 && (
           <div className="online-tasks card mt-4 p-4 shadow-sm">
-            <h4 className="mb-3">Online Zadaci</h4>
+            <h4 className="mb-3">Online Zadaci ({onlineTasks.length})</h4>
             <div className="tasks-grid">
               {onlineTasks.map((task) => (
                 <div key={task.taskId} className="task-item">
@@ -261,6 +271,14 @@ const Game: React.FC = () => {
               Pošalji odgovore
             </button>
           </div>
+        )}
+
+        {showPointsModal && pointsData && (
+          <PointsModal
+            pointsFromTest={pointsData.pointsFromTest}
+            totalPoints={pointsData.totalPoints}
+            onClose={() => setShowPointsModal(false)}
+          />
         )}
 
         {courses.length > 0 && (

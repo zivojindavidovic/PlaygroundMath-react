@@ -1,0 +1,96 @@
+.points-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.points-modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: modalPop 0.3s ease-out;
+}
+
+.points-animation {
+  position: relative;
+  height: 120px;
+  margin-bottom: 1rem;
+
+  .star {
+    position: absolute;
+    color: #FFD700;
+    font-size: 2rem;
+    animation: starTwinkle 1.5s infinite;
+
+    &.star-1 { left: 20%; animation-delay: 0s; }
+    &.star-2 { left: 50%; animation-delay: 0.2s; }
+    &.star-3 { left: 80%; animation-delay: 0.4s; }
+  }
+
+  .trophy {
+    color: #FFD700;
+    font-size: 4rem;
+    animation: trophyBounce 1s ease-out;
+  }
+}
+
+.points-info {
+  margin: 2rem 0;
+
+  .test-points, .total-points {
+    margin: 1rem 0;
+  }
+
+  h3 {
+    color: #FF9B9B;
+    font-size: 2rem;
+    margin: 0.5rem 0;
+  }
+
+  .award-icon {
+    color: #FF9B9B;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.close-button {
+  background: #FF9B9B;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+@keyframes trophyBounce {
+  0% { transform: translateY(-50px); opacity: 0; }
+  50% { transform: translateY(20px); }
+  100% { transform: translateY(0); opacity: 1; }
+} 
