@@ -239,7 +239,7 @@ const Game: React.FC = () => {
             <div className="tasks-grid">
               {onlineTasks.map((task) => (
                 <div key={task.taskId} className="task-item">
-                  <span>{task.task} = </span>
+                  <span>{task.task}</span>
                   <input
                     type="text"
                     className="form-control"

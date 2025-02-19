@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/useRegister";
+import registerImage from '../../assets/login-register.png';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -93,7 +94,7 @@ const Register: React.FC = () => {
             </p>
           </div>
           <div className="login-illustration">
-            <img src="/path-to-your-kids-illustration.png" alt="Kids learning" />
+            <img src={registerImage} alt="Kids learning" />
           </div>
         </div>
       </div>

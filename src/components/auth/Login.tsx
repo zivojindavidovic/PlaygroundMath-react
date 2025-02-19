@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../hooks/useAuth';
+import loginImage from '../../assets/login-register.png';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ const Login: React.FC = () => {
             </p>
           </div>
           <div className="login-illustration">
-            <img src="/path-to-your-kids-illustration.png" alt="Kids learning" />
+            <img src={loginImage} alt="Kids learning" />
           </div>
         </div>
       </div>
