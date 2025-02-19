@@ -7,6 +7,7 @@ const CreateAccount: React.FC = () => {
     username,
     age,
     formErrors,
+    errorMessage,
     isLoading,
     setUsername,
     setAge,
@@ -55,6 +56,12 @@ const CreateAccount: React.FC = () => {
               <div className="error-message">{formErrors.age}</div>
             )}
           </div>
+
+          {errorMessage && (
+            <div className="error-message" style={{ marginBottom: '15px', textAlign: 'center' }}>
+              {errorMessage}
+            </div>
+          )}
 
           <button
             className="submit-button"

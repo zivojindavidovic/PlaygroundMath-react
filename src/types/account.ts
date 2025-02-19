@@ -9,7 +9,9 @@ export interface CreateAccountResponse {
     username?: string;
     age?: string;
   }[];
-} 
+  error?: string;
+  message?: string;
+}
 
 export interface Account {
   accountId: number;

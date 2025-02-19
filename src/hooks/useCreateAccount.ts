@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AccountService } from '../services/accountService';
-import { toast } from 'react-toastify';
 
 export const useCreateAccount = () => {
   const [username, setUsername] = useState('');
@@ -10,29 +9,34 @@ export const useCreateAccount = () => {
     username?: string;
     age?: string;
   }>({});
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleCreateAccount = async () => {
     setFormErrors({});
+    setErrorMessage('');
     setIsLoading(true);
-
+  
     try {
       const response = await AccountService.createAccount({ username, age });
-
+  
       if (response.success) {
-        toast.success('Nalog je uspešno kreiran');
         navigate('/accounts');
       } else {
-        const newFormErrors: { username?: string; age?: string } = {};
-        response.errors?.forEach((errorObj) => {
-          if (errorObj.username) newFormErrors.username = errorObj.username;
-          if (errorObj.age) newFormErrors.age = errorObj.age;
-        });
-        setFormErrors(newFormErrors);
+        if (response.message) {
+          setErrorMessage(response.message);
+        } else {
+          const newFormErrors: { username?: string; age?: string } = {};
+          response.errors?.forEach((errorObj) => {
+            if (errorObj.username) newFormErrors.username = errorObj.username;
+            if (errorObj.age) newFormErrors.age = errorObj.age;
+          });
+          setFormErrors(newFormErrors);
+        }
       }
     } catch (error) {
-      toast.error('Došlo je do greške prilikom kreiranja naloga');
+      setErrorMessage('Došlo je do greške prilikom kreiranja naloga');
     } finally {
       setIsLoading(false);
     }
@@ -42,9 +46,10 @@ export const useCreateAccount = () => {
     username,
     age,
     formErrors,
+    errorMessage,
     isLoading,
     setUsername,
     setAge,
     handleCreateAccount,
   };
-}; 
+};
