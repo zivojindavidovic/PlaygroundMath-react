@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
-import AuthGuard from './component/AuthGuard';
-import ProfessorCourseComponent from './component/ProfessorCourseComponent';
+import AuthGuard from './components/component/AuthGuard';
+import ProfessorCourseComponent from './components/component/ProfessorCourseComponent';
 import ConfirmAccount from './pages/ConfirmAccount';
 import RankList from './components/ranklist/RankList';
 import Profile from './components/profile/Profile';
