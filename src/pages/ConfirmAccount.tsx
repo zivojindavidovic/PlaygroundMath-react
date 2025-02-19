@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "../styles/ConfirmAccount.scss";
 
 const ConfirmAccount: React.FC = () => {
-  const [message, setMessage] = useState("Confirming your account...");
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("Potvrđujemo vaš nalog...");
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
   useEffect(() => {
     const confirmUser = async () => {
@@ -11,7 +12,8 @@ const ConfirmAccount: React.FC = () => {
       const token = params.get("token");
 
       if (!token) {
-        setMessage("No token found in URL");
+        setMessage("Token nije pronađen u URL-u");
+        setStatus("error");
         return;
       }
 
@@ -31,23 +33,39 @@ const ConfirmAccount: React.FC = () => {
         const data: boolean = await response.json();
 
         if (data) {
-          setMessage("Account confirmed");
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
+          setMessage("Nalog je uspešno potvrđen!");
+          setStatus("success");
         } else {
-          setMessage("Token expired, we sent you a new email.");
+          setMessage("Token je istekao, poslali smo vam novi email.");
+          setStatus("error");
         }
       } catch (error) {
         console.error(error);
-        setMessage("Something went wrong. Please try again later.");
+        setMessage("Došlo je do greške. Molimo pokušajte ponovo kasnije.");
+        setStatus("error");
       }
     };
 
     confirmUser();
-  }, [navigate]);
+  }, []);
 
-  return <div>{message}</div>;
+  return (
+    <div className="confirm-container">
+      <div className="confirm-card">
+        <div className={`confirm-icon ${status}`}>
+          {status === "loading" && <i className="fas fa-spinner fa-spin"></i>}
+          {status === "success" && <i className="fas fa-check-circle"></i>}
+          {status === "error" && <i className="fas fa-exclamation-circle"></i>}
+        </div>
+        <h2 className={`confirm-message ${status}`}>{message}</h2>
+        {status === "success" && (
+          <Link to="http://0.0.0.0:5173/login" className="login-link">
+            Prijavi se
+          </Link>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ConfirmAccount;
