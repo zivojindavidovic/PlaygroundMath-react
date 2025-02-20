@@ -53,3 +53,13 @@ export interface SolveTaskRequest {
   testAnswers: Record<string, string>[];
   accountId: number;
 } 
+
+export interface OperationConfig {
+  [key: string]: number;
+}
+
+export interface AccountDetails {
+  accountId: number;
+  username: string;
+  points: number;
+}

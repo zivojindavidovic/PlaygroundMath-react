@@ -5,7 +5,9 @@ import {
   Course, 
   UnresolvedTestsResponse,
   GenerateTasksRequest,
-  SolveTaskRequest
+  SolveTaskRequest,
+  OperationConfig,
+  AccountDetails
 } from '../types/game';
 
 export class GameService {
@@ -98,6 +100,38 @@ export class GameService {
     
     if (!response.ok) {
       throw new Error('Failed to fetch unresolved tests');
+    }
+    
+    return await response.json();
+  }
+
+  static async getOperationConfig(): Promise<OperationConfig> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.CONFIG.GET}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch operation config');
+    }
+    
+    return await response.json();
+  }
+  
+  static async getAccountDetails(accountId: string): Promise<AccountDetails> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.ACCOUNT.GET}?accountId=${accountId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch account details');
     }
     
     return await response.json();

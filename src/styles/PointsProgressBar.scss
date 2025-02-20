@@ -1,0 +1,131 @@
+.points-progress-container {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .points-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    
+    .star-icon {
+      color: #FFD700;
+      font-size: 2rem;
+      margin-right: 0.5rem;
+      animation: starPulse 2s infinite;
+    }
+
+    .current-points {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #444;
+    }
+  }
+
+  .progress-bar-container {
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 10px;
+    position: relative;
+    margin-top: 45px;
+    margin-bottom: 20px;
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FF9B9B, #FF7B7B);
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
+
+      .progress-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.1),
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.1)
+        );
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+
+  .operation-milestone {
+    position: absolute;
+    transform: translateX(-50%);
+    top: -35px;
+    z-index: 1;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 10px;
+      background-color: #ccc;
+    }
+
+    .milestone-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      .milestone-icon {
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+
+        &.unlocked {
+          color: #28a745;
+          animation: unlockPop 0.5s ease-out;
+        }
+
+        &.locked {
+          color: #dc3545;
+        }
+      }
+
+      .operation-symbol {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #444;
+        margin: 2px 0;
+      }
+
+      .points-required {
+        font-size: 0.8rem;
+        color: #666;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes starPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes unlockPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+} 

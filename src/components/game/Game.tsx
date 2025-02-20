@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGame } from "../../hooks/useGame";
 import "../../styles/Game.scss";
 import PointsModal from '../common/PointsModal';
+import PointsProgressBar from "../common/PointsProgressBar";
 
 const Game: React.FC = () => {
   const {
@@ -24,7 +25,9 @@ const Game: React.FC = () => {
     unresolvedTestResponses,
     showPointsModal,
     pointsData,
-    setShowPointsModal,  // Add this line
+    operationConfig,
+    accountPoints,
+    setShowPointsModal,
     setNumberOneFrom,
     setNumberOneTo,
     setNumberTwoFrom,
@@ -124,18 +127,30 @@ const Game: React.FC = () => {
 
           <div className="mb-3">
             <label className="form-label">Operacije</label>
+            <PointsProgressBar 
+              currentPoints={accountPoints} 
+              operations={operationConfig} 
+            />
             <div className="d-flex gap-3">
-              {["+", "-", "*", "/"].map((op) => (
-                <div key={op} className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    checked={operations.includes(op)}
-                    onChange={() => toggleOperation(op)}
-                  />
-                  <label className="form-check-label">{op}</label>
-                </div>
-              ))}
+              {["+", "-", "*", "/"].map((op) => {
+                const requiredPoints = operationConfig[op] || 0;
+                const isDisabled = !operations.includes(op) && accountPoints < requiredPoints;
+                
+                return (
+                  <div key={op} className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      checked={operations.includes(op)}
+                      onChange={() => toggleOperation(op)}
+                      disabled={isDisabled}
+                    />
+                    <label className="form-check-label">
+                      {op}
+                    </label>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

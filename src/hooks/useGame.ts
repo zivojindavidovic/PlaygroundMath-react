@@ -6,7 +6,8 @@ import { toast } from 'react-toastify';
 import {
   OnlineTask,
   Course,
-  UnresolvedTest
+  UnresolvedTest,
+  OperationConfig
 } from '../types/game';
 
 export const useGame = () => {
@@ -34,6 +35,29 @@ export const useGame = () => {
 
   const [showPointsModal, setShowPointsModal] = useState(false);
   const [pointsData, setPointsData] = useState<{ pointsFromTest: number; totalPoints: number } | null>(null);
+
+  const [operationConfig, setOperationConfig] = useState<OperationConfig>({});
+  const [accountPoints, setAccountPoints] = useState<number>(0);
+
+  useEffect(() => {
+    if (!accountId) return;
+  
+    const fetchInitialData = async () => {
+      try {
+        const [configData, accountData] = await Promise.all([
+          GameService.getOperationConfig(),
+          GameService.getAccountDetails(accountId)
+        ]);
+        
+        setOperationConfig(configData);
+        setAccountPoints(accountData.points);
+      } catch (error) {
+        toast.error('Failed to fetch initial data');
+      }
+    };
+  
+    fetchInitialData();
+  }, [accountId]);
 
   useEffect(() => {
     if (!accountId) return;
@@ -99,6 +123,13 @@ export const useGame = () => {
   }, [testType, accountId]);
 
   const toggleOperation = (op: string) => {
+    const requiredPoints = operationConfig[op] || 0;
+    
+    if (!operations.includes(op) && accountPoints < requiredPoints) {
+      toast.error(`Potrebno je ${requiredPoints} poena za ${op} operaciju`);
+      return;
+    }
+  
     setOperations((prevOps) => {
       const newOps = prevOps.includes(op) 
         ? prevOps.filter((o) => o !== op)
@@ -228,6 +259,7 @@ export const useGame = () => {
   
       setShowPointsModal(true);
       setPointsData(data);
+      setAccountPoints(data.totalPoints);
       setOnlineTasks([]);
       setOnlineResponses({});
     } catch (error) {
@@ -250,15 +282,18 @@ export const useGame = () => {
 
   const handleSubmitUnresolvedTest = async (testId: number) => {
     if (!accountId) return;
-
+  
     const testAnswers = unresolvedTestResponses[testId] || {};
-
+  
     try {
       const data = await GameService.solveTasks({
         testAnswers: [testAnswers],
         accountId: Number(accountId),
       });
-
+  
+      setShowPointsModal(true);
+      setPointsData(data);
+      setAccountPoints(data.totalPoints);
       toast.success(`You won ${data.pointsFromTest} points from this test!`);
     } catch (error) {
       toast.error('Failed to submit test');
@@ -285,6 +320,8 @@ export const useGame = () => {
     unresolvedTestResponses,
     showPointsModal,
     pointsData,
+    operationConfig,
+    accountPoints,
     setShowPointsModal,
     setNumberOneFrom,
     setNumberOneTo,

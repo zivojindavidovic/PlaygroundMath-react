@@ -11,6 +11,7 @@ export const ENDPOINTS = {
     RANK_LIST: '/account/rankList',
     GET_ALL: '/account/getAll',
     DELETE: '/account/delete',
+    GET: '/account/get'
   },
   USER: {
     TEACHERS: '/user/teachers',
@@ -35,5 +36,8 @@ export const ENDPOINTS = {
     DELETEUSER: '/admin/delete-user',
     DELETEACCOUNT: '/admin/delete-account',
     UPDATEPOINTS: '/admin/update-account-points'
+  },
+  CONFIG: {
+    GET: '/config',
   }
 }; 
