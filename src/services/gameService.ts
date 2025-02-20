@@ -136,4 +136,23 @@ export class GameService {
     
     return await response.json();
   }
+
+  static async generateTasksForCourse(data: Omit<GenerateTasksRequest, 'accountId'> & { courseId: number }): Promise<ApiResponse<TaskResult>> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.TASK.GENERATE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to generate tasks');
+    }
+    
+    return await response.json();
+  }
 } 
