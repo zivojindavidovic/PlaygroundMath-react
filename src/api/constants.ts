@@ -23,7 +23,8 @@ export const ENDPOINTS = {
     CREATE: '/course/create',
     APPLICATIONS: '/course/applications',
     RESOLVE_APPLICATION: '/course/resolveApplication',
-    MY_COURSES: '/course/myCourses'
+    MY_COURSES: '/course/myCourses',
+    LIST: '/course/list'
   },
   TASK: {
     GENERATE: '/task/generate',
@@ -39,5 +40,8 @@ export const ENDPOINTS = {
   },
   CONFIG: {
     GET: '/config',
+  },
+  TEST: {
+    UNRESOLVED: '/test/unresolved',
   }
 }; 

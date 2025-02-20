@@ -62,6 +62,29 @@ export const useGame = () => {
   useEffect(() => {
     if (!accountId) return;
 
+    const fetchCourseData = async () => {
+      try {
+        const courseList = await GameService.getStudentCourseList(accountId);
+        setCourses(courseList);
+        
+        for (const course of courseList) {
+          const unresolvedTests = await GameService.getStudentUnresolvedTests(accountId, course.courseId);
+          setUnresolvedTests(prev => ({
+            ...prev,
+            [course.courseId]: unresolvedTests[0]?.tests || []
+          }));
+        }
+      } catch (error) {
+        toast.error('Failed to fetch course data');
+      }
+    };
+
+    fetchCourseData();
+  }, [accountId]);
+
+  useEffect(() => {
+    if (!accountId) return;
+
     const fetchCourses = async () => {
       try {
         const data = await GameService.getCourses(accountId);

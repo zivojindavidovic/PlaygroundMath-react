@@ -7,7 +7,9 @@ import {
   GenerateTasksRequest,
   SolveTaskRequest,
   OperationConfig,
-  AccountDetails
+  AccountDetails,
+  CourseListItem,
+  UnresolvedTestResponse
 } from '../types/game';
 
 export class GameService {
@@ -25,6 +27,44 @@ export class GameService {
     
     if (!response.ok) {
       throw new Error('Failed to generate tasks');
+    }
+    
+    return await response.json();
+  }
+
+  static async getStudentCourseList(accountId: string): Promise<CourseListItem[]> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.COURSE.LIST}?accountId=${accountId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch course list');
+    }
+    
+    return await response.json();
+  }
+
+  static async getStudentUnresolvedTests(accountId: string, courseId: number): Promise<UnresolvedTestResponse[]> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(
+      `${API_BASE_URL}${ENDPOINTS.TEST.UNRESOLVED}?accountId=${accountId}&courseId=${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch unresolved tests');
     }
     
     return await response.json();

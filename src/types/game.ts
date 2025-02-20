@@ -63,3 +63,23 @@ export interface AccountDetails {
   username: string;
   points: number;
 }
+
+export interface CourseListItem {
+  courseId: number;
+  courseAge: number;
+}
+
+export interface UnresolvedTask {
+  taskId: number;
+  task: string;
+}
+
+export interface UnresolvedTestItem {
+  testId: number;
+  tasks: UnresolvedTask[];
+}
+
+export interface UnresolvedTestResponse {
+  courseId: number;
+  tests: UnresolvedTestItem[];
+}

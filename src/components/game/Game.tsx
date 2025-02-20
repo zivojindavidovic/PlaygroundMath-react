@@ -3,6 +3,7 @@ import { useGame } from "../../hooks/useGame";
 import "../../styles/Game.scss";
 import PointsModal from '../common/PointsModal';
 import PointsProgressBar from "../common/PointsProgressBar";
+import UnresolvedTests from "./UnresolvedTests";
 
 const Game: React.FC = () => {
   const {
@@ -344,6 +345,13 @@ const Game: React.FC = () => {
           </div>
         )}
       </div>
+      {Object.entries(unresolvedTests).map(([courseId, tests]) => (
+      <UnresolvedTests
+          key={courseId}
+          tests={[{ courseId: Number(courseId), tests }]}
+          onSubmitTest={handleSubmitUnresolvedTest}
+        />
+      ))}
     </div>
   );
 };
