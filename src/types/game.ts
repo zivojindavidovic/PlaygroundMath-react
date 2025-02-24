@@ -52,7 +52,8 @@ export interface GenerateTasksRequest {
 export interface SolveTaskRequest {
   testAnswers: Record<string, string>[];
   accountId: number;
-} 
+  testId?: number;
+}
 
 export interface OperationConfig {
   [key: string]: number;

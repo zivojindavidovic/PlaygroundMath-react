@@ -312,12 +312,25 @@ export const useGame = () => {
       const data = await GameService.solveTasks({
         testAnswers: [testAnswers],
         accountId: Number(accountId),
+        testId: testId
       });
   
       setShowPointsModal(true);
       setPointsData(data);
       setAccountPoints(data.totalPoints);
       toast.success(`You won ${data.pointsFromTest} points from this test!`);
+
+      // Fetch updated course data to refresh the tests
+      const courseList = await GameService.getStudentCourseList(accountId);
+      setCourses(courseList);
+      
+      for (const course of courseList) {
+        const unresolvedTests = await GameService.getStudentUnresolvedTests(accountId, course.courseId);
+        setUnresolvedTests(prev => ({
+          ...prev,
+          [course.courseId]: unresolvedTests[0]?.tests || []
+        }));
+      }
     } catch (error) {
       toast.error('Failed to submit test');
     }
