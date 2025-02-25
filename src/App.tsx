@@ -15,33 +15,25 @@ import Applications from './components/applications/Applications';
 import CreateCourse from './components/courses/CreateCourse';
 import Professor from './components/professor/Professor';
 import Game from './components/game/Game';
-import { useEffect, useState } from 'react';
 import AdminAccounts from './components/admin/AdminAccounts';
 import AdminUsers from './components/admin/AdminUsers';
 
 const App: React.FC = () => {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isTeacher, setIsTeacher] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const teacherStatus = localStorage.getItem('isTeacher');
-    setIsTeacher(teacherStatus === 'true');
-    setIsInitialized(true);
-  }, []);
 
   const DefaultComponent = () => {
-    if (!isInitialized) return null;
-    
-    if (isTeacher) {
+    const isTeacher = localStorage.getItem('isTeacher');
+    const isAdmin = localStorage.getItem('isAdmin');
+
+    if (isTeacher === "true") {
       return <Navigate to="/professor-courses" replace />;
+    }
+
+    if (isAdmin === "true") {
+      return <Navigate to="/admin/users" replace />;
     }
     
     return <Navigate to="/accounts" replace />;
   };
-
-  if (!isInitialized) {
-    return null;
-  }
 
   return (
     <Router>
