@@ -15,7 +15,8 @@ const Profile: React.FC = () => {
     setDeleteMode,
     setSelectedAccountId,
     handleDelete,
-    closeModal
+    closeModal,
+    modalError
   } = useProfile();
 
   if (isLoading) {
@@ -42,10 +43,10 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
-      <div className="profile-header-main">
+      <div className="profile-header">
         <h2>
           <i className="fas fa-user-circle"></i>
-          Korisnički Profil
+          <span>Korisnički Profil</span>
         </h2>
         <p>Upravljajte vašim nalogom i povezanim nalozima</p>
       </div>
@@ -54,7 +55,10 @@ const Profile: React.FC = () => {
         <div className="user-info-section">
           <div className="user-details">
             <p className="user-name">{userData?.firstName} {userData?.lastName}</p>
-            <p className="user-email">{userData?.email}</p>
+            <p className="user-email">
+              <i className="fas fa-envelope"></i>
+              {userData?.email}
+            </p>
           </div>
           <button
             className="delete-button"
@@ -142,7 +146,12 @@ const Profile: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {error && <div className="error-message">{error}</div>}
+              {modalError && (
+                <div className="modal-error">
+                  <i className="fas fa-exclamation-circle"></i>
+                  <span>{modalError}</span>
+                </div>
+              )}
             </div>
 
             <div className="modal-footer">

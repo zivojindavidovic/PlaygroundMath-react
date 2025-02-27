@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useProfessorCourses } from "../../hooks/useProfessorCourses";
 import "../../styles/ProfessorCourses.scss";
 
 const ProfessorCourses: React.FC = () => {
   const { courses, isLoading, error, handleCourseClick } = useProfessorCourses();
+  const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+  const [selectedDescription, setSelectedDescription] = useState("");
+
+  const handleDescriptionClick = (description: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedDescription(description);
+    setShowDescriptionModal(true);
+  };
 
   if (isLoading) {
     return (
@@ -61,6 +69,12 @@ const ProfessorCourses: React.FC = () => {
                 <h3 className="course-title">{course.title}</h3>
                 <div className="course-description">
                   <p>{course.description}</p>
+                  <button 
+                    className="expand-description"
+                    onClick={(e) => handleDescriptionClick(course.description, e)}
+                  >
+                    <i className="fas fa-chevron-right"></i>
+                  </button>
                 </div>
                 <div className="course-age">
                   <i className="fas fa-user-graduate age-icon"></i>
@@ -69,6 +83,33 @@ const ProfessorCourses: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {showDescriptionModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Opis Kursa</h3>
+              <button
+                className="close-button"
+                onClick={() => setShowDescriptionModal(false)}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p className="full-description">{selectedDescription}</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="cancel-button"
+                onClick={() => setShowDescriptionModal(false)}
+              >
+                Zatvori
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
