@@ -13,6 +13,14 @@ const ProfessorCourseComponent: React.FC = () => {
 
   return (
     <div className="professor-course-container">
+      <div className="course-header">
+        <div className="title-wrapper">
+          <i className="fas fa-chalkboard-teacher"></i>
+          <span>Detalji Kursa</span>
+        </div>
+        <p className="course-subtitle">Pregled polaznika i testova na kursu</p>
+      </div>
+
       <div className="game-section">
         <ProfessorGame />
       </div>

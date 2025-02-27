@@ -18,7 +18,10 @@ const Professor: React.FC = () => {
   if (isLoading) {
     return (
       <div className="professor-container">
-        <div className="loading-spinner">Loading...</div>
+        <div className="loading-spinner">
+          <i className="fas fa-circle-notch fa-spin"></i>
+          <span>Učitavanje kurseva...</span>
+        </div>
       </div>
     );
   }
@@ -26,12 +29,16 @@ const Professor: React.FC = () => {
   return (
     <div className="professor-container">
       <div className="professor-header">
-        <h2>Kursevi Profesora</h2>
+        <h2>
+          <i className="fas fa-chalkboard-teacher"></i>
+          Kursevi Profesora
+        </h2>
         <p>Lista dostupnih kurseva</p>
       </div>
 
       {courses.length === 0 ? (
         <div className="no-courses">
+          <i className="fas fa-books"></i>
           <h5>Ovaj profesor trenutno nema aktivnih kurseva</h5>
         </div>
       ) : (
@@ -39,17 +46,27 @@ const Professor: React.FC = () => {
           {courses.map((course) => (
             <div key={course.courseId} className="course-card">
               <div className="course-info">
-                <i className="fas fa-graduation-cap course-icon"></i>
-                <h3>Godine: {course.age}</h3>
-                <p className="due-date">
-                  Ističe: {new Date(course.dueDate).toLocaleDateString()}
-                </p>
-                <button
-                  className="apply-button"
-                  onClick={() => handleApply(course.courseId)}
-                >
-                  <i className="fas fa-paper-plane"></i> Apliciraj
-                </button>
+                <div className="course-header">
+                  <i className="fas fa-graduation-cap course-icon"></i>
+                  <span className="course-date">
+                    Do: {new Date(course.dueDate).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="course-content">
+                  <h3 className="course-title">{course.title}</h3>
+                  <p className="course-description">{course.description}</p>
+                  <div className="course-age">
+                    <i className="fas fa-user-graduate age-icon"></i>
+                    <span>{course.age}. razred</span>
+                  </div>
+                  <button
+                    className="apply-button"
+                    onClick={() => handleApply(course.courseId)}
+                  >
+                    <i className="fas fa-paper-plane"></i>
+                    <span>Apliciraj</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}

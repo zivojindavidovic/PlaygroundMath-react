@@ -44,7 +44,13 @@ const ReviewChildCourses: React.FC = () => {
 
   return (
     <div className="review-child-courses">
-      <h2>Istorija kurseva</h2>
+      <div className="courses-header">
+        <h2>
+          <i className="fas fa-book-reader"></i>
+          Pregled Kurseva
+        </h2>
+        <p>Pratite napredak i rezultate na kursevima</p>
+      </div>
       <div className="accounts-container">
         {accounts.map((account) => (
           <div key={account.accountId} className="account-card">

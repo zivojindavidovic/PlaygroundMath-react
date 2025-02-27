@@ -1,5 +1,5 @@
 .accounts-container {
-  padding: 20px;
+  padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -7,78 +7,174 @@
 .accounts-header {
   text-align: center;
   margin-bottom: 40px;
+  animation: fadeInDown 0.6s ease-out;
   
   h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 8px;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    i {
+      color: #FF9B9B;
+      font-size: 2.2rem;
+    }
   }
   
   p {
-    color: #666;
-    font-size: 1.1rem;
+    color: #7f8c8d;
+    font-size: 1.2rem;
   }
 }
 
 .accounts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
   padding: 20px;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .account-card {
-  background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
+  position: relative;
+  background: white;
   border-radius: 24px;
-  padding: 24px;
-  text-align: center;
+  overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 32px rgba(255, 155, 155, 0.2);
+
+    .card-overlay {
+      opacity: 1;
+    }
+
+    .start-button {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 }
 
-.points-container {
+.card-content {
   position: relative;
-  margin-bottom: 20px;
-  padding-top: 20px;
+  z-index: 2;
+  padding: 24px;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 155, 155, 0.05) 0%, rgba(255, 181, 181, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.points-container {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.trophy-badge, .star-badge {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.badge-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0) 70%);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
 }
 
 .trophy-icon, .star-icon {
-  font-size: 40px;
+  font-size: 48px;
   color: #FFD700;
-  margin-bottom: 8px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
+  position: relative;
+  z-index: 2;
 }
 
 .account-points {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
-  color: white;
-  margin: 8px 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+  margin: 8px 0 4px;
 }
 
 .points-label {
-  color: white;
-  font-size: 1rem;
-  opacity: 0.9;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .account-info {
-  margin-top: 20px;
+  text-align: center;
+}
+
+.username-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  i {
+    color: #FF9B9B;
+    font-size: 1.1rem;
+  }
 }
 
 .account-username {
   font-size: 1.2rem;
-  color: white;
+  color: #2c3e50;
   font-weight: 500;
   margin: 0;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  transition: all 0.3s ease;
+  transform: translateY(10px);
+  opacity: 0;
+
+  i {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #ff8282 0%, #ffa5a5 100%);
+  }
 }
 
 .no-accounts {
@@ -87,44 +183,150 @@
   background: white;
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.4s ease-out;
   
+  i {
+    font-size: 2.5rem;
+    color: #FF9B9B;
+    margin-bottom: 16px;
+    display: block;
+  }
+
   h5 {
-    color: #666;
-    font-size: 1.1rem;
+    color: #7f8c8d;
+    font-size: 1.2rem;
     margin: 0;
   }
 }
 
-.loading-spinner {
+.loading-spinner, .error-message {
   text-align: center;
   padding: 40px;
-  color: #666;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.loading-spinner {
+  color: #7f8c8d;
 }
 
 .error-message {
-  text-align: center;
-  padding: 40px;
-  color: #dc3545;
+  color: #e74c3c;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 // Responsive styles
 @media (max-width: 1200px) {
   .accounts-container {
-    padding: 15px;
+    padding: 20px;
   }
   
   .accounts-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
+    padding: 16px;
   }
 }
 
 @media (max-width: 768px) {
   .accounts-header {
-    margin-bottom: 30px;
+    margin-bottom: 32px;
+    
+    h2 {
+      font-size: 2rem;
+
+      i {
+        font-size: 1.8rem;
+      }
+    }
+    
+    p {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .account-card {
+    .card-content {
+      padding: 20px;
+    }
+  }
+  
+  .trophy-icon, .star-icon {
+    font-size: 40px;
+  }
+  
+  .account-points {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .accounts-container {
+    padding: 16px;
+  }
+  
+  .accounts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px;
+  }
+  
+  .accounts-header {
+    margin-bottom: 24px;
     
     h2 {
       font-size: 1.8rem;
+
+      i {
+        font-size: 1.6rem;
+      }
     }
     
     p {
@@ -133,32 +335,21 @@
   }
   
   .account-card {
-    padding: 20px;
-  }
-  
-  .account-points {
-    font-size: 40px;
-  }
-}
-
-@media (max-width: 480px) {
-  .accounts-container {
-    padding: 10px;
-  }
-  
-  .accounts-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 10px;
-  }
-  
-  .accounts-header {
-    h2 {
-      font-size: 1.5rem;
+    .card-content {
+      padding: 16px;
     }
   }
   
-  .account-points {
+  .trophy-icon, .star-icon {
     font-size: 36px;
+  }
+  
+  .account-points {
+    font-size: 28px;
+  }
+  
+  .start-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
   }
 }

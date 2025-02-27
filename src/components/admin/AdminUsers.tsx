@@ -10,7 +10,13 @@ const AdminUsers: React.FC = () => {
 
   return (
     <div className="admin-container">
-      <h2>Svi korisnici</h2>
+      <div className="admin-header">
+        <h2>
+          <i className="fas fa-users"></i>
+          Upravljanje Korisnicima
+        </h2>
+        <p>Pregled i administracija svih korisnika sistema</p>
+      </div>
       <div className="users-list">
         {users.map(user => (
           <div key={user.id} className="user-item">

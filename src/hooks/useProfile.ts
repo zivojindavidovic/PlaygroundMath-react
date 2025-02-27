@@ -1,34 +1,51 @@
 import { useState, useEffect } from 'react';
-import { Account } from '../types/profile';
-import { ProfileService } from '../services/profileService';
-import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../api/constants';
+
+interface Account {
+  accountId: number;
+  username: string;
+  points: number;
+}
+
+interface UserData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  accounts: Account[];
+}
 
 export const useProfile = () => {
-  const [accounts, setAccounts] = useState<Account[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [password, setPassword] = useState("");
-  const [deleteMode, setDeleteMode] = useState<"user" | "account" | null>(null);
+  const [password, setPassword] = useState('');
+  const [deleteMode, setDeleteMode] = useState<'user' | 'account' | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
 
-  const userId = localStorage.getItem("userId");
-  const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem('userId');
+  const accessToken = localStorage.getItem('accessToken');
 
-  const fetchAccounts = async () => {
-    if (!userId) return;
-    
+  const fetchUserData = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await ProfileService.getAccounts(userId);
-      if (data.success && data.results && data.results[0]) {
-        setAccounts(data.results[0].accounts);
+      const response = await fetch(`${API_BASE_URL}/user?userId=${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch user data');
       }
+
+      setUserData(data);
     } catch (err) {
-      setError('Failed to load accounts');
-      toast.error('Failed to load accounts');
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -36,57 +53,58 @@ export const useProfile = () => {
 
   const handleDelete = async () => {
     if (!password) {
-      setError("Unesite lozinku.");
+      setError('Please enter your password');
       return;
     }
 
     try {
-      if (deleteMode === "user" && userId) {
-        const response = await ProfileService.deleteUser({ userId, password });
-        if (response.success) {
-          localStorage.clear();
-          window.location.href = "/login";
-        } else {
-          handleDeleteError(response);
-        }
-      } else if (deleteMode === "account" && selectedAccountId) {
-        const response = await ProfileService.deleteAccount({
-          accountId: selectedAccountId,
-          userPassword: password
-        });
-        if (response.success) {
-          setAccounts(prevAccounts => 
-            prevAccounts.filter(acc => acc.accountId !== selectedAccountId)
-          );
-          closeModal();
-        } else {
-          handleDeleteError(response);
-        }
+      const endpoint = deleteMode === 'user' 
+        ? `${API_BASE_URL}/user/${userId}`
+        : `${API_BASE_URL}/account/${selectedAccountId}`;
+
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to delete');
+      }
+
+      if (deleteMode === 'user') {
+        localStorage.clear();
+        window.location.href = '/login';
+      } else {
+        await fetchUserData();
+        closeModal();
       }
     } catch (err) {
-      setError("Došlo je do greške. Molimo pokušajte ponovo.");
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
-  };
-
-  const handleDeleteError = (response: { errors?: Record<string, string>[] }) => {
-    const errorMessage = response.errors?.[0]?.password || "Došlo je do greške pri brisanju naloga.";
-    setError(errorMessage);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    setPassword("");
-    setError("");
+    setPassword('');
+    setError(null);
     setDeleteMode(null);
     setSelectedAccountId(null);
   };
 
   useEffect(() => {
-    fetchAccounts();
+    if (userId && accessToken) {
+      fetchUserData();
+    }
   }, [userId, accessToken]);
 
   return {
-    accounts,
+    userData,
     isLoading,
     error,
     showModal,
@@ -98,6 +116,6 @@ export const useProfile = () => {
     setDeleteMode,
     setSelectedAccountId,
     handleDelete,
-    closeModal
+    closeModal,
   };
 }; 

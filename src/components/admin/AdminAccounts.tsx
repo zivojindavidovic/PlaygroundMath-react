@@ -18,7 +18,13 @@ const AdminAccounts: React.FC = () => {
 
   return (
     <div className="admin-container">
-      <h2>Svi nalozi</h2>
+      <div className="admin-header">
+        <h2>
+          <i className="fas fa-user-circle"></i>
+          Upravljanje Nalozima
+        </h2>
+        <p>Pregled i administracija svih naloga u sistemu</p>
+      </div>
       <div className="accounts-list">
         {accounts.map(account => (
           <div key={account.accountId} className="account-item">

@@ -54,11 +54,20 @@ const Game: React.FC = () => {
 
   return (
     <div className="game">
-      <h5 className="alert alert-danger text-center">Generator zadataka</h5>
+      <div className="game-header">
+        <h2>
+          <i className="fas fa-gamepad"></i>
+          Generator Zadataka
+        </h2>
+        <p>Kreirajte i rešavajte matematičke zadatke</p>
+      </div>
       
       <div className="game-container">
         <div className="game-config card p-4 shadow-sm">
-          <h4 className="mb-3">Konfigurator generatora zadataka</h4>
+          <h4 className="text-center mb-4">
+            <i className="fas fa-cogs"></i>
+            Konfigurator generatora zadataka
+          </h4>
           
           <div className="row mb-3">
             <div className="col-md-6">

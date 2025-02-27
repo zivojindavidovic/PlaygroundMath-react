@@ -2,6 +2,8 @@ export interface Course {
   courseId: number;
   age: number;
   dueDate: string;
+  title: string;
+  description: string;
 }
 
 export interface CoursesResponse {

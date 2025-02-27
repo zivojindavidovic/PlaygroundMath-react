@@ -4,7 +4,7 @@ import "../../styles/Profile.scss";
 
 const Profile: React.FC = () => {
   const {
-    accounts,
+    userData,
     isLoading,
     error,
     showModal,
@@ -18,62 +18,105 @@ const Profile: React.FC = () => {
     closeModal
   } = useProfile();
 
-  const email = localStorage.getItem("email");
-  const isTeacher = localStorage.getItem("isTeacher") === "true";
+  if (isLoading) {
+    return (
+      <div className="profile-container">
+        <div className="loading-spinner">
+          <i className="fas fa-circle-notch fa-spin"></i>
+          <span>Učitavanje podataka...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="profile-container">
+        <div className="error-message">
+          <i className="fas fa-exclamation-circle"></i>
+          <span>{error}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">
+      <div className="profile-header-main">
+        <h2>
+          <i className="fas fa-user-circle"></i>
+          Korisnički Profil
+        </h2>
+        <p>Upravljajte vašim nalogom i povezanim nalozima</p>
+      </div>
+
       <div className="profile-card">
-        <div className="profile-header">
-          <h2>Profil</h2>
-          <p>{email}</p>
+        <div className="user-info-section">
+          <div className="user-details">
+            <p className="user-name">{userData?.firstName} {userData?.lastName}</p>
+            <p className="user-email">{userData?.email}</p>
+          </div>
+          <button
+            className="delete-button"
+            onClick={() => {
+              setDeleteMode("user");
+              setShowModal(true);
+            }}
+          >
+            <i className="fas fa-trash-alt"></i>
+            Obriši nalog
+          </button>
         </div>
         
         <div className="profile-content">
           <div className="profile-section">
-            <h3>Korisnički nalog</h3>
-            <button
-              className="delete-button"
-              onClick={() => {
-                setDeleteMode("user");
-                setShowModal(true);
-              }}
-            >
-              Obriši nalog
-            </button>
-          </div>
+            {userData?.accounts && userData.accounts.length > 0 && (
+              <div className="accounts-table-container">
+                <table className="accounts-table">
+                  <thead>
+                    <tr>
+                      <th>Korisničko ime</th>
+                      <th>Poeni</th>
+                      <th>Akcije</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userData.accounts.map((account) => (
+                      <tr key={account.accountId}>
+                        <td>{account.username}</td>
+                        <td>
+                          <span className="points">
+                            <i className="fas fa-star"></i>
+                            {account.points}
+                          </span>
+                        </td>
+                        <td>
+                          <button
+                            className="delete-button"
+                            onClick={() => {
+                              setDeleteMode("account");
+                              setSelectedAccountId(account.accountId);
+                              setShowModal(true);
+                            }}
+                          >
+                            <i className="fas fa-trash-alt"></i>
+                            Obriši
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
-          {!isTeacher && (
-            <div className="profile-section">
-              <h3>Nalozi dece</h3>
-              {isLoading ? (
-                <div className="loading">Loading...</div>
-              ) : accounts.length === 0 ? (
-                <p className="no-accounts">Nema dostupnih naloga dece.</p>
-              ) : (
-                <div className="accounts-list">
-                  {accounts.map((account) => (
-                    <div key={account.accountId} className="account-item">
-                      <div className="account-info">
-                        <h4>{account.username}</h4>
-                        <p>Poeni: {account.points}</p>
-                      </div>
-                      <button
-                        className="delete-button"
-                        onClick={() => {
-                          setDeleteMode("account");
-                          setSelectedAccountId(account.accountId);
-                          setShowModal(true);
-                        }}
-                      >
-                        Obriši
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+            {(!userData?.accounts || userData.accounts.length === 0) && (
+              <div className="no-accounts">
+                <i className="fas fa-users-slash"></i>
+                <p>Nema dostupnih naloga.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -87,7 +130,7 @@ const Profile: React.FC = () => {
                   : "Potvrda brisanja naloga dece"}
               </h3>
               <button className="close-button" onClick={closeModal}>
-                ×
+                <i className="fas fa-times"></i>
               </button>
             </div>
 
@@ -104,9 +147,11 @@ const Profile: React.FC = () => {
 
             <div className="modal-footer">
               <button className="cancel-button" onClick={closeModal}>
+                <i className="fas fa-times"></i>
                 Otkaži
               </button>
               <button className="confirm-button" onClick={handleDelete}>
+                <i className="fas fa-trash-alt"></i>
                 Obriši
               </button>
             </div>

@@ -16,15 +16,21 @@ const CreateAccount: React.FC = () => {
 
   return (
     <div className="create-account-container">
-      <div className="create-account-card">
-        <div className="create-account-header">
-          <h2>Kreiraj Nalog Deteta</h2>
-          <p>Unesite podatke za novi nalog</p>
-        </div>
+      <div className="create-account-header">
+        <h2>
+          <i className="fas fa-user-plus"></i>
+          Kreiraj Nalog
+        </h2>
+        <p>Dodajte novi korisnički nalog za dete</p>
+      </div>
 
+      <div className="create-account-card">
         <div className="create-account-form">
           <div className="form-group">
-            <label htmlFor="username">Korisničko ime deteta</label>
+            <label htmlFor="username">
+              <i className="fas fa-user"></i>
+              Korisničko ime deteta
+            </label>
             <input
               id="username"
               type="text"
@@ -39,16 +45,19 @@ const CreateAccount: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="age">Godine deteta</label>
+            <label htmlFor="age">
+              <i className="fas fa-birthday-cake"></i>
+              Godine deteta
+            </label>
             <select
               id="age"
               className={`form-input ${formErrors.age ? 'error' : ''}`}
               value={age}
               onChange={(e) => setAge(Number(e.target.value))}
             >
-              {[...Array(10)].map((_, i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
+              {[...Array(8)].map((_, i) => (
+                <option key={i + 3} value={i + 3}>
+                  {i + 3}
                 </option>
               ))}
             </select>
@@ -68,7 +77,17 @@ const CreateAccount: React.FC = () => {
             onClick={handleCreateAccount}
             disabled={isLoading}
           >
-            {isLoading ? "Kreiranje..." : "Kreiraj nalog deteta"}
+            {isLoading ? (
+              <>
+                <i className="fas fa-spinner fa-spin"></i>
+                Kreiranje...
+              </>
+            ) : (
+              <>
+                <i className="fas fa-plus-circle"></i>
+                Kreiraj nalog
+              </>
+            )}
           </button>
         </div>
       </div>

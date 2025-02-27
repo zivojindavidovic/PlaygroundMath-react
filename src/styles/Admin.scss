@@ -1,14 +1,44 @@
 .admin-container {
-  padding: 20px;
+  padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
 
-  h2 {
+  .admin-header {
     text-align: center;
-    color: #333;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    font-weight: 700;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.6s ease-out;
+    
+    h2 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      i {
+        color: #FF9B9B;
+        font-size: 2.2rem;
+      }
+    }
+    
+    p {
+      color: #7f8c8d;
+      font-size: 1.2rem;
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .users-list,

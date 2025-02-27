@@ -9,7 +9,10 @@ const RankList: React.FC = () => {
     return (
       <div className="rank-list-container">
         <div className="rank-card">
-          <div className="loading-spinner">Loading...</div>
+          <div className="loading-spinner">
+            <i className="fas fa-circle-notch fa-spin"></i>
+            <span>Učitavanje rang liste...</span>
+          </div>
         </div>
       </div>
     );
@@ -19,7 +22,10 @@ const RankList: React.FC = () => {
     return (
       <div className="rank-list-container">
         <div className="rank-card">
-          <div className="error-message">{error}</div>
+          <div className="error-message">
+            <i className="fas fa-exclamation-circle"></i>
+            <span>{error}</span>
+          </div>
         </div>
       </div>
     );
@@ -27,12 +33,15 @@ const RankList: React.FC = () => {
 
   return (
     <div className="rank-list-container">
+      <div className="rank-header-main">
+        <h2>
+          <i className="fas fa-trophy"></i>
+          Najbolji Učenici
+        </h2>
+        <p>Pogledajte ko su naši najuspešniji polaznici</p>
+      </div>
+      
       <div className="rank-card">
-        <div className="rank-header">
-          <h2>Rang Lista</h2>
-          <p>Top učenici i njihovi poeni</p>
-        </div>
-        
         <div className="rank-list">
           {rankList.map((user, index) => (
             <div 
@@ -40,7 +49,13 @@ const RankList: React.FC = () => {
               className={`rank-item ${index < 3 ? `top-${index + 1}` : ''}`}
             >
               <div className="rank-info">
-                <span className="rank-number">{index + 1}</span>
+                <div className="rank-number">
+                  {index < 3 ? (
+                    <i className={`fas fa-${index === 0 ? 'crown' : index === 1 ? 'medal' : 'award'}`}></i>
+                  ) : (
+                    index + 1
+                  )}
+                </div>
                 <span className="username">{user.username}</span>
               </div>
               <div className="points">

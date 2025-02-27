@@ -97,6 +97,10 @@ const DashboardPage: React.FC = () => {
                 <i className="fas fa-user-circle"></i>
                 <span>Svi nalozi</span>
               </Link>
+              <Link to="/admin-teacher-courses" className="menu-item">
+                <i className="fas fa-book-reader"></i>
+                <span>Upravljaj kursevima</span>
+              </Link>
             </div>
           )}
         </nav>

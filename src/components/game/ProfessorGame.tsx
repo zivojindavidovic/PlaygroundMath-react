@@ -36,12 +36,15 @@ const ProfessorGame: React.FC = () => {
 
   return (
     <div className="professor-game">
-      <h5 className="alert alert-danger text-center">Generator zadataka</h5>
+      <div className="game-section-header">
+        <h4>
+          <i className="fas fa-cogs"></i>
+          Konfigurator generatora zadataka
+        </h4>
+      </div>
       
       <div className="game-container">
         <div className="game-config card p-4 shadow-sm">
-          <h4 className="mb-3">Konfigurator generatora zadataka</h4>
-          
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">Minimalna vrednost prvog broja</label>

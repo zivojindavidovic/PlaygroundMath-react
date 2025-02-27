@@ -1,22 +1,34 @@
 .applications-container {
-  padding: 20px;
+  padding: 24px;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: calc(100vh - 70px);
 }
 
-.applications-header {
+.applications-header-main {
   text-align: center;
   margin-bottom: 40px;
+  animation: fadeInDown 0.6s ease-out;
   
   h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 8px;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    i {
+      color: #FF9B9B;
+      font-size: 2.2rem;
+    }
   }
   
   p {
-    color: #666;
-    font-size: 1.1rem;
+    color: #7f8c8d;
+    font-size: 1.2rem;
   }
 }
 
@@ -25,45 +37,79 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
   padding: 20px;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .application-card {
   background: white;
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(255, 155, 155, 0.1);
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 155, 155, 0.1);
 
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 12px 48px rgba(255, 155, 155, 0.2);
   }
 }
 
 .application-info {
-  .username {
-    font-size: 1.4rem;
-    color: #333;
-    margin: 0 0 16px 0;
-    font-weight: 600;
+  .user-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+
+    i {
+      font-size: 1.8rem;
+      color: #FF9B9B;
+    }
+
+    .username {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin: 0;
+      font-weight: 600;
+    }
   }
 
   .details {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 
-    p {
+    .detail-item {
       display: flex;
-      align-items: center;
-      margin: 8px 0;
-      color: #666;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
 
       i {
-        margin-right: 8px;
         color: #FF9B9B;
+        font-size: 1.1rem;
+        margin-top: 3px;
+      }
+
+      .detail-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .detail-label {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+      }
+
+      .detail-value {
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.1rem;
       }
 
       .age-info {
-        margin-left: 8px;
-        color: #888;
+        color: #95a5a6;
         font-size: 0.9rem;
       }
     }
@@ -85,9 +131,10 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      font-size: 1rem;
 
       i {
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
 
       &.approve-button {
@@ -95,7 +142,12 @@
         color: white;
 
         &:hover {
-          background: #43A047;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+
+        &:active {
+          transform: translateY(0);
         }
       }
 
@@ -104,7 +156,12 @@
         color: white;
 
         &:hover {
-          background: #e53935;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
+        }
+
+        &:active {
+          transform: translateY(0);
         }
       }
     }
@@ -116,11 +173,19 @@
   padding: 40px;
   background: white;
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(255, 155, 155, 0.1);
+  border: 1px solid rgba(255, 155, 155, 0.1);
+  animation: fadeIn 0.6s ease-out;
   
-  h5 {
-    color: #666;
-    font-size: 1.1rem;
+  i {
+    font-size: 2.5rem;
+    color: #95a5a6;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #7f8c8d;
+    font-size: 1.2rem;
     margin: 0;
   }
 }
@@ -128,37 +193,97 @@
 .loading-spinner {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #7f8c8d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  
+  i {
+    color: #FF9B9B;
+    font-size: 1.5rem;
+  }
+
+  span {
+    font-size: 1.1rem;
+  }
 }
 
 .error-message {
   text-align: center;
   padding: 40px;
-  color: #dc3545;
+  color: #e74c3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  i {
+    font-size: 1.2rem;
+  }
+
+  span {
+    font-size: 1.1rem;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // Responsive styles
 @media (max-width: 768px) {
   .applications-container {
-    padding: 15px;
+    padding: 16px;
   }
 
-  .applications-header {
+  .applications-header-main {
     margin-bottom: 30px;
     
     h2 {
-      font-size: 1.8rem;
+      font-size: 2rem;
+      
+      i {
+        font-size: 1.8rem;
+      }
     }
     
     p {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
   }
 
   .applications-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 15px;
+    padding: 16px;
   }
 
   .application-card {
@@ -166,8 +291,17 @@
   }
 
   .application-info {
-    .username {
-      font-size: 1.2rem;
+    .user-header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+
+      i {
+        font-size: 1.6rem;
+      }
+
+      .username {
+        font-size: 1.2rem;
+      }
     }
 
     .actions {
@@ -177,13 +311,17 @@
 }
 
 @media (max-width: 480px) {
-  .applications-container {
-    padding: 10px;
-  }
-
-  .applications-header {
+  .applications-header-main {
     h2 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      
+      i {
+        font-size: 1.6rem;
+      }
+    }
+    
+    p {
+      font-size: 1rem;
     }
   }
 
@@ -192,13 +330,29 @@
   }
 
   .application-info {
-    .details p {
-      flex-direction: column;
-      align-items: flex-start;
-      
-      .age-info {
-        margin-left: 24px;
+    .user-header {
+      i {
+        font-size: 1.4rem;
       }
+
+      .username {
+        font-size: 1.1rem;
+      }
+    }
+
+    .details {
+      .detail-item {
+        gap: 8px;
+
+        .detail-value {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .actions button {
+      padding: 10px;
+      font-size: 0.95rem;
     }
   }
 } 

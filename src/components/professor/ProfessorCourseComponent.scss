@@ -3,13 +3,154 @@
   flex-direction: column;
   gap: 24px;
   padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.course-header {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeInDown 0.6s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  
+  .title-wrapper {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    i {
+      color: #FF9B9B;
+      font-size: 2.2rem;
+    }
+  }
+  
+  .course-subtitle {
+    color: #7f8c8d;
+    font-size: 1.2rem;
+    margin: 0;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .game-section {
   background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  .game-section-header {
+    text-align: center;
+    margin-bottom: 32px;
+    
+    h4 {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      i {
+        color: #FF9B9B;
+        font-size: 1.8rem;
+      }
+    }
+    
+    p {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+  }
+
+  .form-control {
+    border-radius: 8px;
+    border: 2px solid #eee;
+    padding: 10px;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #FF9B9B;
+      box-shadow: none;
+    }
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .form-check {
+    .form-check-input {
+      &:checked {
+        background-color: #FF9B9B;
+        border-color: #FF9B9B;
+      }
+    }
+  }
+
+  button.btn,
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    &.btn-primary {
+      background-color: #FF9B9B !important;
+      border: none;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: #ff8282 !important;
+        transform: translateY(-2px);
+      }
+
+      &:disabled {
+        background-color: #ffb5b5 !important;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 155, 155, 0.25);
+      }
+    }
+
+    &.btn-success {
+      background-color: #28a745 !important;
+      border: none;
+      color: white;
+
+      &:hover {
+        background-color: #218838 !important;
+        transform: translateY(-2px);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+      }
+    }
+  }
 }
 
 .professor-course {
@@ -17,8 +158,8 @@
     text-align: center;
     padding: 24px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   }
 
   .error {
@@ -27,100 +168,115 @@
 
   .course-section {
     background: white;
-    border-radius: 12px;
-    padding: 24px;
+    border-radius: 16px;
+    padding: 28px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.6s ease-out;
 
     h2 {
-      color: #333;
-      margin-bottom: 20px;
+      color: #2c3e50;
+      margin-bottom: 24px;
       padding-bottom: 12px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 2px solid #f0f0f0;
+      font-weight: 600;
     }
   }
 
-  // Accounts Section
   .accounts-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
   }
 
   .account-item {
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #eee;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(255, 155, 155, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    }
   }
 
   .account-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 20px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
 
     &:hover {
-      background: #f0f0f0;
+      background: rgba(255, 155, 155, 0.05);
     }
 
     .username {
-      font-weight: 500;
-      color: #444;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 1.1rem;
     }
 
     i {
-      color: #666;
-      transition: transform 0.2s;
+      color: #FF9B9B;
+      transition: transform 0.3s ease;
     }
   }
 
   .account-details {
-    padding: 16px;
+    padding: 20px;
     background: white;
-    border-top: 1px solid #eee;
+    border-top: 2px solid #f0f0f0;
 
     .progress-info {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       color: #666;
-      font-size: 0.9rem;
+      font-size: 1rem;
 
       .solved-count {
-        font-weight: 500;
-        color: #444;
+        font-weight: 600;
+        color: #2c3e50;
       }
     }
 
     .progress-bar {
       height: 8px;
-      background: #e9ecef;
-      border-radius: 4px;
+      background: #f0f0f0;
+      border-radius: 8px;
       overflow: hidden;
 
       .progress {
         height: 100%;
         background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
-        transition: width 0.3s ease;
+        transition: width 0.4s ease;
       }
     }
   }
 
-  // Tests Section
   .tests-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 24px;
   }
 
   .test-card {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 16px;
-    border: 1px solid #eee;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    border: 2px solid transparent;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
 
     &.completed {
       border-color: #28a745;
@@ -132,20 +288,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 
     h3 {
       margin: 0;
-      color: #444;
-      font-size: 1.1rem;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
   }
 
   .status-badge {
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
     font-weight: 500;
+    transition: all 0.3s ease;
 
     &.completed {
       background: #28a745;
@@ -161,16 +319,33 @@
   .tasks-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
+    gap: 16px;
   }
 
   .task-item {
     background: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    font-size: 0.9rem;
-    color: #555;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid #f0f0f0;
+    font-size: 1rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #FF9B9B;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -180,12 +355,12 @@
   }
 
   .game-section {
-    padding: 16px;
+    padding: 20px;
   }
 
   .professor-course {
     .course-section {
-      padding: 16px;
+      padding: 20px;
     }
 
     .tests-grid {
