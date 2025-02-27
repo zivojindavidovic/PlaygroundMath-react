@@ -126,11 +126,11 @@ export class GameService {
     return await response.json();
   }
 
-  static async getUnresolvedTests(accountId: string, courseId: number): Promise<UnresolvedTestsResponse[]> {
+  static async getUnresolvedTests(accountId: string, courseId: number): Promise<UnresolvedTestsResponse> {
     const accessToken = localStorage.getItem('accessToken');
     
     const response = await fetch(
-      `${API_BASE_URL}${ENDPOINTS.TASK.UNRESOLVED}?accountId=${accountId}&courseId=${courseId}`,
+      `${API_BASE_URL}/test/unresolved?accountId=${accountId}&courseId=${courseId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

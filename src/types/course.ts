@@ -14,6 +14,8 @@ export interface CreateCourseData {
   userId: string;
   age: number;
   dueDate: string;
+  title: string;
+  description: string;
 }
 
 export interface CreateCourseResponse {

@@ -51,6 +51,10 @@ const DashboardPage: React.FC = () => {
                 <i className="fas fa-chalkboard-teacher"></i>
                 <span>Profesori</span>
               </Link>
+              <Link to="/review-child-courses" className="menu-item">
+                <i className="fas fa-book-open"></i>
+                <span>Istorija kurseva</span>
+              </Link>
               <Link to="/rank-list" className="menu-item">
                 <i className="fas fa-trophy"></i>
                 <span>Rang lista</span>

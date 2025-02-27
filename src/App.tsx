@@ -17,6 +17,7 @@ import Professor from './components/professor/Professor';
 import Game from './components/game/Game';
 import AdminAccounts from './components/admin/AdminAccounts';
 import AdminUsers from './components/admin/AdminUsers';
+import ReviewChildCourses from './components/review-child-courses/ReviewChildCourses';
 
 const App: React.FC = () => {
 
@@ -57,6 +58,7 @@ const App: React.FC = () => {
           <Route path="rank-list" element={<RankList />} />
           <Route path="profile" element={<Profile />} />
           <Route path="game/:accountId" element={<Game />} />
+          <Route path="review-child-courses" element={<ReviewChildCourses />} />
           <Route path="professor-courses" element={<ProfessorCourses />} />
           <Route path="applications" element={<Applications />} />
           <Route path="create-course" element={<CreateCourse />} />

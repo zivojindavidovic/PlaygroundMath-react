@@ -10,13 +10,13 @@ export const useRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const register = async ({ email, password, accountType }: RegisterCredentials) => {
+  const register = async ({ email, password, accountType, firstName, lastName }: RegisterCredentials) => {
     setEmailError('');
     setPasswordError('');
     setIsLoading(true);
     
     try {
-      const data = await AuthService.register({ email, password, accountType });
+      const data = await AuthService.register({ email, password, accountType, firstName, lastName });
       
       if (data.success) {
         toast.success('Registracija je uspela. Proveri svoju e-adresu kako bi potvrdio kreiranje naloga.', 

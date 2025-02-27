@@ -8,6 +8,8 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [accountType, setAccountType] = useState<"PARENT" | "TEACHER">("PARENT");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   
   const { register, emailError, passwordError, isLoading, setPasswordError } = useRegister();
 
@@ -17,7 +19,7 @@ const Register: React.FC = () => {
       return;
     }
 
-    await register({ email, password, accountType });
+    await register({ email, password, accountType, firstName, lastName });
   };
 
   return (
@@ -26,6 +28,28 @@ const Register: React.FC = () => {
         <h1 className="welcome-text">Registracija</h1>
         <div className="login-content">
           <div className="login-form">
+          <div className="input-group">
+              <label htmlFor="firstName">Ime</label>
+              <input
+                id="firstName"
+                type="text"
+                className="login-input-field"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              {/* {emailError && <div className="error-message">{emailError}</div>} */}
+            </div>
+            <div className="input-group">
+              <label htmlFor="lastName">Prezime</label>
+              <input
+                id="lastName"
+                type="text"
+                className="login-input-field"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              {/* {emailError && <div className="error-message">{emailError}</div>} */}
+            </div>
             <div className="input-group">
               <label htmlFor="email">E-Adresa</label>
               <input

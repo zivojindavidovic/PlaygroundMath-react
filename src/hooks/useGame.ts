@@ -100,23 +100,22 @@ export const useGame = () => {
   useEffect(() => {
     if (!accountId || courses.length === 0) return;
 
-    courses.forEach((course) => {
-      const fetchUnresolvedTests = async () => {
-        try {
+    const fetchUnresolvedTests = async () => {
+      try {
+        for (const course of courses) {
           const data = await GameService.getUnresolvedTests(accountId, course.courseId);
-          if (data && data.length > 0) {
-            setUnresolvedTests((prev) => ({
-              ...prev,
-              [course.courseId]: data[0].tests,
-            }));
-          }
-        } catch (error) {
-          console.error(`Error fetching unresolved tests for course ${course.courseId}:`, error);
+          setUnresolvedTests((prev) => ({
+            ...prev,
+            [course.courseId]: data.tests,
+          }));
         }
-      };
+      } catch (error) {
+        console.error('Error fetching unresolved tests:', error);
+        toast.error('Failed to fetch unresolved tests');
+      }
+    };
 
-      fetchUnresolvedTests();
-    });
+    fetchUnresolvedTests();
   }, [courses, accountId]);
 
   useEffect(() => {

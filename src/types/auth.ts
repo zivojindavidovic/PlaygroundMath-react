@@ -18,6 +18,8 @@ export interface RegisterCredentials {
   email: string;
   password: string;
   accountType: 'PARENT' | 'TEACHER';
+  firstName: string;
+  lastName: string;
 }
 
 export interface RegisterResponse {

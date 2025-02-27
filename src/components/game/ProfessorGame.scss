@@ -1,0 +1,177 @@
+.professor-game {
+  padding: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+    background: white;
+  }
+
+  .game-config {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h4 {
+      color: #2c3e50;
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #34495e;
+    }
+
+    .form-control {
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+      padding: 8px 12px;
+      transition: border-color 0.2s;
+
+      &:focus {
+        border-color: #409eff;
+        box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
+      }
+    }
+
+    .form-check {
+      margin-bottom: 8px;
+
+      .form-check-input {
+        &:checked {
+          background-color: #409eff;
+          border-color: #409eff;
+        }
+
+        &:disabled {
+          background-color: #f5f7fa;
+          border-color: #dcdfe6;
+        }
+      }
+
+      .form-check-label {
+        color: #606266;
+      }
+    }
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+
+    .task-item {
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      span {
+        font-size: 1.1em;
+        color: #2c3e50;
+      }
+
+      input {
+        margin-top: 8px;
+      }
+    }
+  }
+
+  .pdf-tasks, .online-tasks {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h4 {
+      color: #2c3e50;
+      border-bottom: 1px solid #ebeef5;
+      padding-bottom: 16px;
+    }
+  }
+
+  .btn {
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &.btn-primary {
+      background-color: #409eff;
+      border-color: #409eff;
+
+      &:hover:not(:disabled) {
+        background-color: #66b1ff;
+        border-color: #66b1ff;
+      }
+
+      &:disabled {
+        background-color: #a0cfff;
+        border-color: #a0cfff;
+        cursor: not-allowed;
+      }
+    }
+
+    &.btn-success {
+      background-color: #67c23a;
+      border-color: #67c23a;
+
+      &:hover {
+        background-color: #85ce61;
+        border-color: #85ce61;
+      }
+    }
+  }
+
+  .test-container {
+    background: #f8f9fa;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tasks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .professor-game {
+    .card {
+      padding: 16px !important;
+    }
+
+    .row {
+      margin: 0;
+    }
+
+    [class*="col-"] {
+      padding: 0;
+      margin-bottom: 16px;
+    }
+  }
+} 

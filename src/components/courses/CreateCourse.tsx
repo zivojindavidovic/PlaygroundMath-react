@@ -7,8 +7,12 @@ const CreateCourse: React.FC = () => {
     age,
     dueDate,
     isLoading,
+    title,
+    description,
     setAge,
     setDueDate,
+    setTitle,
+    setDescription,
     handleCreateCourse
   } = useCreateCourse();
 
@@ -18,6 +22,29 @@ const CreateCourse: React.FC = () => {
         <div className="create-course-header">
           <h2>Kreiraj Kurs</h2>
           <p>Unesite podatke za novi kurs</p>
+        </div>
+
+        <div className="input-group">
+              <label htmlFor="courseTitle">Naziv kursa</label>
+              <input
+                id="courseTitle"
+                type="text"
+                className="login-input-field"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              {/* {emailError && <div className="error-message">{emailError}</div>} */}
+        </div>
+
+        <div className="input-group">
+              <label htmlFor="courseDescription">Opis kursa</label>
+              <textarea
+                id="courseDescription"
+                className="login-input-field"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              {/* {emailError && <div className="error-message">{emailError}</div>} */}
         </div>
 
         <div className="create-course-form">

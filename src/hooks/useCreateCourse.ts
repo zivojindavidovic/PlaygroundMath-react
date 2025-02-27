@@ -7,6 +7,8 @@ export const useCreateCourse = () => {
   const [dueDate, setDueDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleCreateCourse = async () => {
     const userId = localStorage.getItem("userId");
@@ -29,7 +31,9 @@ export const useCreateCourse = () => {
       const response = await CourseService.createCourse({
         userId,
         age,
-        dueDate: formattedDueDate
+        dueDate: formattedDueDate,
+        title,
+        description
       });
 
       if (response.success) {
@@ -53,8 +57,12 @@ export const useCreateCourse = () => {
     dueDate,
     isLoading,
     error,
+    title,
+    description,
     setAge,
     setDueDate,
+    setTitle,
+    setDescription,
     handleCreateCourse
   };
 }; 

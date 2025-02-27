@@ -1,0 +1,199 @@
+.professor-course-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.game-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.professor-course {
+  .loading, .error {
+    text-align: center;
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .error {
+    color: #dc3545;
+  }
+
+  .course-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  // Accounts Section
+  .accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .account-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+
+  .account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    .username {
+      font-weight: 500;
+      color: #444;
+    }
+
+    i {
+      color: #666;
+      transition: transform 0.2s;
+    }
+  }
+
+  .account-details {
+    padding: 16px;
+    background: white;
+    border-top: 1px solid #eee;
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: #666;
+      font-size: 0.9rem;
+
+      .solved-count {
+        font-weight: 500;
+        color: #444;
+      }
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress {
+        height: 100%;
+        background: linear-gradient(135deg, #FF9B9B 0%, #FFB5B5 50%, #FFD1D1 100%);
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  // Tests Section
+  .tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .test-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #eee;
+
+    &.completed {
+      border-color: #28a745;
+      background: #f8fff8;
+    }
+  }
+
+  .test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    h3 {
+      margin: 0;
+      color: #444;
+      font-size: 1.1rem;
+    }
+  }
+
+  .status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    &.completed {
+      background: #28a745;
+      color: white;
+    }
+
+    &.pending {
+      background: #ffc107;
+      color: #333;
+    }
+  }
+
+  .tasks-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .task-item {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #555;
+  }
+}
+
+@media (max-width: 768px) {
+  .professor-course-container {
+    padding: 16px;
+  }
+
+  .game-section {
+    padding: 16px;
+  }
+
+  .professor-course {
+    .course-section {
+      padding: 16px;
+    }
+
+    .tests-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tasks-list {
+      grid-template-columns: 1fr;
+    }
+  }
+} 
