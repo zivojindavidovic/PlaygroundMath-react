@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAdminAccounts } from '../../hooks/useAdminAccounts';
 import { FaCheck } from 'react-icons/fa';
-import '../../styles/Admin.scss';
+import '../../styles/AdminAccounts.scss';
 
 const AdminAccounts: React.FC = () => {
   const { 
@@ -30,38 +30,36 @@ const AdminAccounts: React.FC = () => {
       <div className="accounts-list">
         {accounts.map(account => (
           <article key={account.accountId} className="account-card">
-            <div className="account-content">
-              <div className="account-form">
-                <div className="account-inputs">
-                  <input
-                    type="text"
-                    value={editingStates[account.accountId]?.username || ''}
-                    onChange={(e) => updateEditingState(account.accountId, 'username', e.target.value)}
-                    placeholder="Korisničko ime"
-                    className="account-input account-input--text"
-                  />
-                  <input
-                    type="number"
-                    value={editingStates[account.accountId]?.points || 0}
-                    onChange={(e) => updateEditingState(account.accountId, 'points', parseInt(e.target.value))}
-                    className="account-input account-input--number"
-                  />
-                </div>
-                <button 
-                  className="btn btn--save"
-                  onClick={() => handleUpdateAccount(account.accountId)}
-                >
-                  <FaCheck className="btn__icon" />
-                  <span className="btn__text">Sačuvaj</span>
-                </button>
+            <div className="account-form">
+              <div className="account-inputs">
+                <input
+                  type="text"
+                  value={editingStates[account.accountId]?.username || ''}
+                  onChange={(e) => updateEditingState(account.accountId, 'username', e.target.value)}
+                  placeholder="Korisničko ime"
+                  className="account-input account-input--text"
+                />
+                <input
+                  type="number"
+                  value={editingStates[account.accountId]?.points || 0}
+                  onChange={(e) => updateEditingState(account.accountId, 'points', parseInt(e.target.value))}
+                  className="account-input account-input--number"
+                />
               </div>
+              <button 
+                className="btn btn--save"
+                onClick={() => handleUpdateAccount(account.accountId)}
+              >
+                <FaCheck className="btn__icon" />
+                <span className="btn__text">Sačuvaj</span>
+              </button>
+              <button 
+                className="btn btn--delete"
+                onClick={() => handleDeleteAccount(account.accountId)}
+              >
+                Obriši
+              </button>
             </div>
-            <button 
-              className="btn btn--delete"
-              onClick={() => handleDeleteAccount(account.accountId)}
-            >
-              Obriši
-            </button>
           </article>
         ))}
       </div>
