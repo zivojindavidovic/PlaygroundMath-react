@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAdminAccounts } from '../../hooks/useAdminAccounts';
+import { FaCheck } from 'react-icons/fa';
 import '../../styles/Admin.scss';
 
 const AdminAccounts: React.FC = () => {
@@ -7,54 +8,61 @@ const AdminAccounts: React.FC = () => {
     accounts, 
     isLoading, 
     error, 
-    pointsMap, 
-    setPointsMap, 
-    handleUpdatePoints, 
+    editingStates,
+    updateEditingState,
+    handleUpdateAccount, 
     handleDeleteAccount 
   } = useAdminAccounts();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (isLoading) return <div className="admin-loading">Loading...</div>;
+  if (error) return <div className="admin-error">{error}</div>;
 
   return (
     <div className="admin-container">
-      <div className="admin-header">
-        <h2>
-          <i className="fas fa-user-circle"></i>
-          Upravljanje Nalozima
+      <header className="admin-header">
+        <h2 className="admin-title">
+          <i className="fas fa-user-circle admin-icon"></i>
+          <span>Upravljanje Nalozima</span>
         </h2>
-        <p>Pregled i administracija svih naloga u sistemu</p>
-      </div>
+        <p className="admin-subtitle">Pregled i administracija svih naloga u sistemu</p>
+      </header>
+
       <div className="accounts-list">
         {accounts.map(account => (
-          <div key={account.accountId} className="account-item">
-            <div className="account-info">
-              <span className="account-username">{account.username}</span>
-              <div className="points-control">
-                <input
-                  type="number"
-                  value={pointsMap[account.accountId]}
-                  onChange={(e) => setPointsMap({
-                    ...pointsMap,
-                    [account.accountId]: parseInt(e.target.value)
-                  })}
-                  className="points-input"
-                />
+          <article key={account.accountId} className="account-card">
+            <div className="account-content">
+              <div className="account-form">
+                <div className="account-inputs">
+                  <input
+                    type="text"
+                    value={editingStates[account.accountId]?.username || ''}
+                    onChange={(e) => updateEditingState(account.accountId, 'username', e.target.value)}
+                    placeholder="Korisničko ime"
+                    className="account-input account-input--text"
+                  />
+                  <input
+                    type="number"
+                    value={editingStates[account.accountId]?.points || 0}
+                    onChange={(e) => updateEditingState(account.accountId, 'points', parseInt(e.target.value))}
+                    className="account-input account-input--number"
+                  />
+                </div>
                 <button 
-                  className="save-button"
-                  onClick={() => handleUpdatePoints(account.accountId)}
+                  className="btn btn--save"
+                  onClick={() => handleUpdateAccount(account.accountId)}
                 >
-                  Sačuvaj
+                  <FaCheck className="btn__icon" />
+                  <span className="btn__text">Sačuvaj</span>
                 </button>
               </div>
             </div>
             <button 
-              className="delete-button"
+              className="btn btn--delete"
               onClick={() => handleDeleteAccount(account.accountId)}
             >
               Obriši
             </button>
-          </div>
+          </article>
         ))}
       </div>
     </div>

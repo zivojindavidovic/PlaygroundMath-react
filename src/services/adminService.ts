@@ -4,6 +4,13 @@ import { AdminUser, AdminAccount, UpdatePointsRequest } from '../types/admin';
 interface UpdatePointsData {
     accountId: number;
     points: number;
+    username: string;
+}
+
+interface UpdateUserData {
+  userId: number;
+  firstName: string;
+  lastName: string;
 }
 
 export class AdminService {
@@ -54,7 +61,7 @@ export class AdminService {
     }
   }
 
-  static async updatePoints(data: UpdatePointsData): Promise<void> {
+  static async updatePoints(data: UpdatePointsData): Promise<{ success: boolean }> {
     const accessToken = localStorage.getItem('accessToken');
     
     const response = await fetch(`${API_BASE_URL}${ENDPOINTS.ADMIN.UPDATEPOINTS}`, {
@@ -69,6 +76,8 @@ export class AdminService {
     if (!response.ok) {
       throw new Error('Failed to update points');
     }
+    
+    return await response.json();
   }
 
   static async deleteAccount(accountId: number): Promise<void> {
@@ -84,5 +93,24 @@ export class AdminService {
     if (!response.ok) {
       throw new Error('Failed to delete account');
     }
+  }
+
+  static async updateUser(data: UpdateUserData): Promise<{ success: boolean }> {
+    const accessToken = localStorage.getItem('accessToken');
+    
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.ADMIN.UPDATEUSER}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update user');
+    }
+    
+    return await response.json();
   }
 } 

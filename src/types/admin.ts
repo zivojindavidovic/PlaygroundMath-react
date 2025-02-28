@@ -3,6 +3,8 @@ export interface AdminUser {
   email: string;
   isParent: boolean;
   isTeacher: boolean;
+  firstName: string;
+  lastName: string;
 }
 
 export interface AdminAccount {

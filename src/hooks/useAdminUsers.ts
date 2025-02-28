@@ -7,6 +7,7 @@ export const useAdminUsers = () => {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
 
   const fetchUsers = async () => {
     try {
@@ -30,9 +31,34 @@ export const useAdminUsers = () => {
     }
   };
 
+  const handleUpdateUser = async (userId: number, firstName: string, lastName: string) => {
+    try {
+      const response = await AdminService.updateUser({ userId, firstName, lastName });
+      if (response.success) {
+        setUsers(users.map(user => 
+          user.id === userId 
+            ? { ...user, firstName, lastName }
+            : user
+        ));
+        setEditingUser(null);
+        toast.success('User updated successfully');
+      }
+    } catch (error) {
+      toast.error('Failed to update user');
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  return { users, isLoading, error, handleDeleteUser };
+  return { 
+    users, 
+    isLoading, 
+    error, 
+    handleDeleteUser, 
+    editingUser, 
+    setEditingUser, 
+    handleUpdateUser 
+  };
 }; 

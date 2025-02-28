@@ -36,7 +36,8 @@ export const ENDPOINTS = {
     ACCOUNTS: '/admin/accounts',
     DELETEUSER: '/admin/delete-user',
     DELETEACCOUNT: '/admin/delete-account',
-    UPDATEPOINTS: '/admin/update-account-points'
+    UPDATEPOINTS: '/admin/update-account-points',
+    UPDATEUSER: '/admin/update-user'
   },
   CONFIG: {
     GET: '/config',

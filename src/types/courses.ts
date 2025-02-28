@@ -6,6 +6,7 @@ export interface ChildCourse {
 
 export interface AccountCourses {
   accountId: number;
+  username: string;
   courses: ChildCourse[];
 }
 

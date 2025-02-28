@@ -7,17 +7,20 @@ export const useAdminAccounts = () => {
   const [accounts, setAccounts] = useState<AdminAccount[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pointsMap, setPointsMap] = useState<Record<number, number>>({});
+  const [editingStates, setEditingStates] = useState<Record<number, { points: number; username: string }>>({});
 
   const fetchAccounts = async () => {
     try {
       const data = await AdminService.getAccounts();
       setAccounts(data);
-      const initialPoints = data.reduce((acc: Record<number, number>, account: AdminAccount) => {
-        acc[account.accountId] = account.points;
+      const initialStates = data.reduce((acc: Record<number, { points: number; username: string }>, account: AdminAccount) => {
+        acc[account.accountId] = {
+          points: account.points,
+          username: account.username
+        };
         return acc;
       }, {});
-      setPointsMap(initialPoints);
+      setEditingStates(initialStates);
     } catch (error) {
       setError('Failed to fetch accounts');
       toast.error('Failed to fetch accounts');
@@ -26,15 +29,25 @@ export const useAdminAccounts = () => {
     }
   };
 
-  const handleUpdatePoints = async (accountId: number) => {
+  const handleUpdateAccount = async (accountId: number) => {
     try {
-      await AdminService.updatePoints({
+      const accountState = editingStates[accountId];
+      const response = await AdminService.updatePoints({
         accountId,
-        points: pointsMap[accountId]
+        points: accountState.points,
+        username: accountState.username
       });
-      toast.success('Points updated successfully');
+      
+      if (response.success) {
+        setAccounts(accounts.map(account => 
+          account.accountId === accountId 
+            ? { ...account, points: accountState.points, username: accountState.username }
+            : account
+        ));
+        toast.success('Account updated successfully');
+      }
     } catch (error) {
-      toast.error('Failed to update points');
+      toast.error('Failed to update account');
     }
   };
 
@@ -48,6 +61,16 @@ export const useAdminAccounts = () => {
     }
   };
 
+  const updateEditingState = (accountId: number, field: 'points' | 'username', value: string | number) => {
+    setEditingStates(prev => ({
+      ...prev,
+      [accountId]: {
+        ...prev[accountId],
+        [field]: value
+      }
+    }));
+  };
+
   useEffect(() => {
     fetchAccounts();
   }, []);
@@ -56,9 +79,9 @@ export const useAdminAccounts = () => {
     accounts, 
     isLoading, 
     error, 
-    pointsMap, 
-    setPointsMap, 
-    handleUpdatePoints, 
+    editingStates,
+    updateEditingState,
+    handleUpdateAccount, 
     handleDeleteAccount 
   };
 }; 

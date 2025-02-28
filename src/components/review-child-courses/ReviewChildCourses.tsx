@@ -54,7 +54,7 @@ const ReviewChildCourses: React.FC = () => {
       <div className="accounts-container">
         {accounts.map((account) => (
           <div key={account.accountId} className="account-card">
-            <h3>Nalog ID: {account.accountId}</h3>
+            <h3>Igrač: {account.username}</h3>
             <div className="courses-grid">
               {account.courses.map((course) => (
                 <div

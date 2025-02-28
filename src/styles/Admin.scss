@@ -1,198 +1,330 @@
-.admin-container {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+// Variables
+$color-primary: #FF9B9B;
+$color-success: #4CAF50;
+$color-danger: #dc3545;
+$color-text: #2c3e50;
+$color-text-light: #7f8c8d;
+$color-border: #E0E0E0;
+$color-white: #fff;
+$color-gray: #E0E0E0;
+$border-radius: 12px;
+$box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
 
-  .admin-header {
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin input-base {
+  padding: 8px 12px;
+  border: 2px solid $color-border;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: $transition;
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+}
+
+@mixin card-base {
+  background: $color-white;
+  border-radius: $border-radius;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Base styles
+.admin {
+  &-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &-header {
     text-align: center;
     margin-bottom: 40px;
     animation: fadeInDown 0.6s ease-out;
-    
-    h2 {
-      font-size: 2.5rem;
-      color: #2c3e50;
-      margin-bottom: 12px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-
-      i {
-        color: #FF9B9B;
-        font-size: 2.2rem;
-      }
-    }
-    
-    p {
-      color: #7f8c8d;
-      font-size: 1.2rem;
-    }
   }
 
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .users-list,
-  .accounts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .user-item,
-  .account-item {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-  }
-
-  .user-info,
-  .account-info {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-
-    .user-email,
-    .account-username {
-      color: #333;
-      font-size: 1.1rem;
-      font-weight: 500;
-    }
-
-    .user-type {
-      background: #FF9B9B;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-  }
-
-  .points-control {
-    display: flex;
+  &-title {
+    font-size: 2.5rem;
+    color: $color-text;
+    margin-bottom: 12px;
+    font-weight: 600;
+    @include flex-center;
     gap: 12px;
-    align-items: center;
   }
 
-  .points-input {
-    width: 100px;
-    padding: 10px 16px;
-    border: 2px solid #E0E0E0;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-
-    &:focus {
-      border-color: #FF9B9B;
-      box-shadow: 0 0 0 4px rgba(255, 155, 155, 0.1);
-      outline: none;
-    }
+  &-icon {
+    color: $color-primary;
+    font-size: 2.2rem;
   }
 
-  .save-button {
-    background: #FF9B9B;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: #FF8383;
-      transform: translateY(-1px);
-    }
+  &-subtitle {
+    color: $color-text-light;
+    font-size: 1.2rem;
   }
 
-  .delete-button {
-    background: white;
-    color: #dc3545;
-    border: 2px solid #dc3545;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: #dc3545;
-      color: white;
-      transform: translateY(-1px);
-    }
-  }
-
-  // Loading and error states
-  .loading, .error {
+  &-loading,
+  &-error {
     text-align: center;
     padding: 40px;
-    color: #666;
     font-size: 1.1rem;
   }
 
-  .error {
-    color: #dc3545;
+  &-loading {
+    color: $color-text-light;
   }
 
-  // Responsive styles
-  @media (max-width: 768px) {
-    padding: 15px;
+  &-error {
+    color: $color-danger;
+  }
+}
 
-    h2 {
+// List styles
+.users-list,
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// Card styles
+.user-card,
+.account-card {
+  @include card-base;
+}
+
+// Content styles
+.user-content,
+.account-content {
+  flex: 1;
+  margin-right: 20px;
+}
+
+// Form styles
+.user-form,
+.account-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-inputs,
+.account-inputs {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.user-input,
+.account-input {
+  @include input-base;
+
+  &--text {
+    flex: 2;
+  }
+
+  &--number {
+    flex: 1;
+    max-width: 120px;
+  }
+}
+
+// User specific styles
+.user {
+  &-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  &-email {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: $color-text;
+  }
+
+  &-type {
+    background: $color-primary;
+    color: $color-white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+
+  &-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &-name {
+    font-size: 1.1rem;
+    color: $color-text;
+  }
+
+  &-actions {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+// Button styles
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: $transition;
+  font-weight: 600;
+
+  &__icon {
+    font-size: 0.9rem;
+  }
+
+  &__text {
+    white-space: nowrap;
+  }
+
+  &--save {
+    background-color: $color-success;
+    color: $color-white;
+
+    &:hover {
+      background-color: darken($color-success, 5%);
+    }
+  }
+
+  &--edit {
+    background-color: $color-gray;
+    color: $color-text;
+
+    &:hover {
+      background-color: darken($color-gray, 5%);
+    }
+  }
+
+  &--cancel {
+    background-color: $color-danger;
+    color: $color-white;
+
+    &:hover {
+      background-color: darken($color-danger, 5%);
+    }
+  }
+
+  &--delete {
+    background: $color-white;
+    color: $color-danger;
+    border: 2px solid $color-danger;
+    padding: 10px 20px;
+    border-radius: $border-radius;
+
+    &:hover {
+      background: $color-danger;
+      color: $color-white;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// Animation
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .admin {
+    &-container {
+      padding: 15px;
+    }
+
+    &-title {
       font-size: 1.8rem;
       margin-bottom: 20px;
     }
+  }
 
-    .user-item,
-    .account-item {
-      padding: 15px;
-      flex-direction: column;
-      gap: 15px;
-      text-align: center;
-    }
+  .user-card,
+  .account-card {
+    padding: 15px;
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .user-info,
-    .account-info {
-      flex-direction: column;
-      gap: 10px;
-    }
+  .user-content,
+  .account-content {
+    margin-right: 0;
+    width: 100%;
+  }
 
-    .points-control {
-      flex-direction: column;
-      width: 100%;
+  .user-form,
+  .account-form {
+    flex-direction: column;
+    gap: 12px;
+  }
 
-      .points-input {
-        width: 100%;
-      }
+  .user-inputs,
+  .account-inputs {
+    flex-direction: column;
+    width: 100%;
+  }
 
-      .save-button {
-        width: 100%;
-      }
-    }
+  .user-input,
+  .account-input {
+    width: 100%;
+    max-width: none !important;
+  }
 
-    .delete-button {
-      width: 100%;
-    }
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .user-display {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .user-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
   }
 } 
