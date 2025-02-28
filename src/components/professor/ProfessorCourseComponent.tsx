@@ -22,7 +22,7 @@ const ProfessorCourseComponent: React.FC = () => {
       </div>
 
       <div className="game-section">
-        <ProfessorGame />
+        <ProfessorGame isExpired={courseData?.isExpired} />
       </div>
 
       <div className="professor-course">

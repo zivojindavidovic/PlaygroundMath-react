@@ -18,6 +18,7 @@ export interface CourseTest {
 export interface ProfessorCourseResponse {
   courseId: number;
   totalTests: number;
+  isExpired: boolean;
   accounts: CourseAccount[];
   tests: CourseTest[];
 } 

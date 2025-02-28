@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useProfessorGame } from "../../hooks/useProfessorGame";
 import "./ProfessorGame.scss";
 
-const ProfessorGame: React.FC = () => {
+interface ProfessorGameProps {
+  isExpired?: boolean;
+}
+
+const ProfessorGame: React.FC<ProfessorGameProps> = ({ isExpired = false }) => {
   const {
     numberOneFrom,
     numberOneTo,
@@ -45,6 +49,12 @@ const ProfessorGame: React.FC = () => {
       
       <div className="game-container">
         <div className="game-config card p-4 shadow-sm">
+          {isExpired && (
+            <div className="alert alert-warning mb-3">
+              <i className="fas fa-exclamation-triangle me-2"></i>
+              Ovaj kurs je istekao. Nije moguće generisati nove zadatke.
+            </div>
+          )}
           <div className="row mb-3">
             <div className="col-md-6">
               <label className="form-label">Minimalna vrednost prvog broja</label>
@@ -53,6 +63,7 @@ const ProfessorGame: React.FC = () => {
                 className="form-control"
                 value={numberOneFrom}
                 onChange={(e) => setNumberOneFrom(Number(e.target.value))}
+                disabled={isExpired}
               />
             </div>
             <div className="col-md-6">
@@ -62,6 +73,7 @@ const ProfessorGame: React.FC = () => {
                 className="form-control"
                 value={numberOneTo}
                 onChange={(e) => setNumberOneTo(Number(e.target.value))}
+                disabled={isExpired}
               />
             </div>
           </div>
@@ -74,6 +86,7 @@ const ProfessorGame: React.FC = () => {
                 className="form-control"
                 value={numberTwoFrom}
                 onChange={(e) => setNumberTwoFrom(Number(e.target.value))}
+                disabled={isExpired}
               />
             </div>
             <div className="col-md-6">
@@ -83,6 +96,7 @@ const ProfessorGame: React.FC = () => {
                 className="form-control"
                 value={numberTwoTo}
                 onChange={(e) => setNumberTwoTo(Number(e.target.value))}
+                disabled={isExpired}
               />
             </div>
           </div>
@@ -96,6 +110,7 @@ const ProfessorGame: React.FC = () => {
                   className="form-check-input"
                   checked={testType === "online"}
                   onChange={() => setTestType("online")}
+                  disabled={isExpired}
                 />
                 <label className="form-check-label">Online</label>
               </div>
@@ -105,6 +120,7 @@ const ProfessorGame: React.FC = () => {
                   className="form-check-input"
                   checked={testType === "pdf"}
                   onChange={() => setTestType("pdf")}
+                  disabled={isExpired}
                 />
                 <label className="form-check-label">PDF</label>
               </div>
@@ -121,6 +137,7 @@ const ProfessorGame: React.FC = () => {
                     className="form-check-input"
                     checked={operations.includes(op)}
                     onChange={() => toggleOperation(op)}
+                    disabled={isExpired}
                   />
                   <label className="form-check-label">{op}</label>
                 </div>
@@ -139,6 +156,7 @@ const ProfessorGame: React.FC = () => {
                       className="form-check-input"
                       checked={sumUnitsGoesOverCurrentTenSum}
                       onChange={(e) => setSumUnitsGoesOverCurrentTenSum(e.target.checked)}
+                      disabled={isExpired}
                     />
                     <label className="form-check-label">
                       Jedinice u zbiru prelaze trenutnu deseticu
@@ -151,6 +169,7 @@ const ProfessorGame: React.FC = () => {
                       className="form-check-input"
                       checked={sumExceedTwoDigitsSum}
                       onChange={(e) => setSumExceedTwoDigitsSum(e.target.checked)}
+                      disabled={isExpired}
                     />
                     <label className="form-check-label">
                       Zbir prelazi dve cifre
@@ -167,6 +186,7 @@ const ProfessorGame: React.FC = () => {
                       className="form-check-input"
                       checked={allowedNegativeResultsSub}
                       onChange={(e) => setAllowedNegativeResultsSub(e.target.checked)}
+                      disabled={isExpired}
                     />
                     <label className="form-check-label">
                       Dozvoljeni negativni rezultati
@@ -179,6 +199,7 @@ const ProfessorGame: React.FC = () => {
                       className="form-check-input"
                       checked={allowedBiggerUnitsInSecondNumberSub}
                       onChange={(e) => setAllowedBiggerUnitsInSecondNumberSub(e.target.checked)}
+                      disabled={isExpired}
                     />
                     <label className="form-check-label">
                       Dozvoljene veće jedinice u drugom broju
@@ -194,6 +215,7 @@ const ProfessorGame: React.FC = () => {
                     className="form-check-input"
                     checked={allowedThreeDigitsResultMul}
                     onChange={(e) => setAllowedThreeDigitsResultMul(e.target.checked)}
+                    disabled={isExpired}
                   />
                   <label className="form-check-label">
                     Rezultat može biti trocifren
@@ -210,7 +232,7 @@ const ProfessorGame: React.FC = () => {
               await handleCreateTasks(e);
               setIsLoading(false);
             }}
-            disabled={isLoading}
+            disabled={isLoading || isExpired}
           >
             {isLoading ? 'Generisanje...' : 'Generiši zadatke'}
           </button>
