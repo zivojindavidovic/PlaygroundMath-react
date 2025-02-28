@@ -4,9 +4,10 @@ import "./ProfessorGame.scss";
 
 interface ProfessorGameProps {
   isExpired?: boolean;
+  onTasksGenerated?: () => Promise<void>;
 }
 
-const ProfessorGame: React.FC<ProfessorGameProps> = ({ isExpired = false }) => {
+const ProfessorGame: React.FC<ProfessorGameProps> = ({ isExpired = false, onTasksGenerated }) => {
   const {
     numberOneFrom,
     numberOneTo,
@@ -37,6 +38,15 @@ const ProfessorGame: React.FC<ProfessorGameProps> = ({ isExpired = false }) => {
   } = useProfessorGame();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleTaskGeneration = async (e: React.MouseEvent) => {
+    setIsLoading(true);
+    await handleCreateTasks(e);
+    if (onTasksGenerated) {
+      await onTasksGenerated();
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div className="professor-game">
@@ -227,11 +237,7 @@ const ProfessorGame: React.FC<ProfessorGameProps> = ({ isExpired = false }) => {
 
           <button
             className="btn btn-primary"
-            onClick={async (e) => {
-              setIsLoading(true);
-              await handleCreateTasks(e);
-              setIsLoading(false);
-            }}
+            onClick={handleTaskGeneration}
             disabled={isLoading || isExpired}
           >
             {isLoading ? 'Generisanje...' : 'Generiši zadatke'}

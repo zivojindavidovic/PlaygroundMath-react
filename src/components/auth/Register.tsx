@@ -11,7 +11,7 @@ const Register: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   
-  const { register, emailError, passwordError, isLoading, setPasswordError } = useRegister();
+  const { register, emailError, passwordError, firstNameError, lastNameError, isLoading, setPasswordError } = useRegister();
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
@@ -37,7 +37,7 @@ const Register: React.FC = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
-              {/* {emailError && <div className="error-message">{emailError}</div>} */}
+              {firstNameError && <div className="error-message">{firstNameError}</div>}
             </div>
             <div className="input-group">
               <label htmlFor="lastName">Prezime</label>
@@ -48,7 +48,7 @@ const Register: React.FC = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
-              {/* {emailError && <div className="error-message">{emailError}</div>} */}
+              {lastNameError && <div className="error-message">{lastNameError}</div>}
             </div>
             <div className="input-group">
               <label htmlFor="email">E-Adresa</label>

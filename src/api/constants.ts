@@ -10,6 +10,7 @@ export const ENDPOINTS = {
     CREATE: '/account/create',
     RANK_LIST: '/account/rankList',
     GET_ALL: '/account/getAll',
+    GET_ALL_FOR_APPLICATION: '/account/getAllForApplication',
     DELETE: '/account/delete',
     GET: '/account/get'
   },

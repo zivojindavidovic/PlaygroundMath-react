@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { CourseService } from '../services/courseService';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
+interface FieldErrors {
+  title?: string;
+  description?: string;
+}
 
 export const useCreateCourse = () => {
   const [age, setAge] = useState(5);
   const [dueDate, setDueDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
   const handleCreateCourse = async () => {
     const userId = localStorage.getItem("userId");
@@ -23,10 +30,18 @@ export const useCreateCourse = () => {
     }
 
     setIsLoading(true);
-    setError(null);
+    setFieldErrors({});
 
     try {
       const formattedDueDate = new Date(dueDate).toISOString().split(".")[0];
+      
+      console.log('Sending request with data:', {
+        userId,
+        age,
+        dueDate: formattedDueDate,
+        title,
+        description
+      });
       
       const response = await CourseService.createCourse({
         userId,
@@ -36,17 +51,29 @@ export const useCreateCourse = () => {
         description
       });
 
+      console.log('Received response:', response);
+
       if (response.success) {
         toast.success('Kurs je uspešno kreiran');
         setAge(5);
         setDueDate('');
-      } else {
-        throw new Error('Failed to create course');
+        setTitle('');
+        setDescription('');
+        navigate('/professor-courses');
+      } else if (response.errors) {
+        console.log('Processing errors:', response.errors);
+        const newErrors: FieldErrors = {};
+        response.errors.forEach(error => {
+          console.log('Processing error:', error);
+          if ('title' in error) newErrors.title = error.title;
+          if ('description' in error) newErrors.description = error.description;
+        });
+        console.log('Setting field errors to:', newErrors);
+        setFieldErrors(newErrors);
       }
     } catch (err) {
-      const errorMessage = 'Error creating course';
-      setError(errorMessage);
-      toast.error(errorMessage);
+      console.error('Error in handleCreateCourse:', err);
+      toast.error('Error creating course');
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +83,7 @@ export const useCreateCourse = () => {
     age,
     dueDate,
     isLoading,
-    error,
+    fieldErrors,
     title,
     description,
     setAge,

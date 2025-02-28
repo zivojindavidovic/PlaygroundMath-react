@@ -45,7 +45,7 @@ export const useProfessor = () => {
     }
 
     try {
-      const accounts = await ProfessorService.getUserAccounts(userId);
+      const accounts = await ProfessorService.getUserAccounts(userId, courseId);
       setAccounts(accounts);
     } catch (error) {
       toast.error('Failed to fetch accounts');

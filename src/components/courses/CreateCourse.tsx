@@ -7,6 +7,7 @@ const CreateCourse: React.FC = () => {
     age,
     dueDate,
     isLoading,
+    fieldErrors,
     title,
     description,
     setAge,
@@ -15,6 +16,8 @@ const CreateCourse: React.FC = () => {
     setDescription,
     handleCreateCourse
   } = useCreateCourse();
+
+  console.log('Current fieldErrors in component:', fieldErrors);
 
   return (
     <div className="create-course-container">
@@ -36,11 +39,17 @@ const CreateCourse: React.FC = () => {
             <input
               id="courseTitle"
               type="text"
-              className="form-input"
+              className={`form-input ${fieldErrors.title ? 'error' : ''}`}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Unesite naziv kursa"
             />
+            {fieldErrors.title && (
+              <div className="error-message">
+                <i className="fas fa-exclamation-circle"></i>
+                {fieldErrors.title}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
@@ -50,12 +59,18 @@ const CreateCourse: React.FC = () => {
             </label>
             <textarea
               id="courseDescription"
-              className="form-input"
+              className={`form-input ${fieldErrors.description ? 'error' : ''}`}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Unesite opis kursa"
               rows={4}
             />
+            {fieldErrors.description && (
+              <div className="error-message">
+                <i className="fas fa-exclamation-circle"></i>
+                {fieldErrors.description}
+              </div>
+            )}
           </div>
 
           <div className="form-group">

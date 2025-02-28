@@ -35,10 +35,10 @@ export class ProfessorService {
     return await response.json();
   }
 
-  static async getUserAccounts(userId: string): Promise<Account[]> {
+  static async getUserAccounts(userId: string, courseId: number): Promise<Account[]> {
     const accessToken = localStorage.getItem('accessToken');
     
-    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.ACCOUNT.GET_ALL}?userId=${userId}`, {
+    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.ACCOUNT.GET_ALL_FOR_APPLICATION}?userId=${userId}&courseId=${courseId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

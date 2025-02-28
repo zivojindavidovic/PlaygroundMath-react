@@ -30,10 +30,12 @@ export class CourseService {
       body: JSON.stringify(data),
     });
     
-    if (!response.ok) {
+    const responseData = await response.json();
+    
+    if (!response.ok && response.status !== 400) {
       throw new Error('Failed to create course');
     }
     
-    return await response.json();
+    return responseData;
   }
 }

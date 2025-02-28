@@ -10,24 +10,24 @@ export const useProfessorCourse = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchCourseData = async () => {
+    if (!courseId || !userId) return;
+
+    try {
+      setIsLoading(true);
+      const response = await CoursesService.getProfessorCourse(userId, courseId);
+      setCourseData(response);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch course data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchCourseData = async () => {
-      if (!courseId || !userId) return;
-
-      try {
-        setIsLoading(true);
-        const response = await CoursesService.getProfessorCourse(userId, courseId);
-        setCourseData(response);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch course data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchCourseData();
   }, [courseId, userId]);
 
-  return { courseData, isLoading, error };
+  return { courseData, isLoading, error, refreshCourseData: fetchCourseData };
 }; 

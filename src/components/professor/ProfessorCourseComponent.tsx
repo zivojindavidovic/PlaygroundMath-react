@@ -4,7 +4,7 @@ import ProfessorGame from '../game/ProfessorGame';
 import './ProfessorCourseComponent.scss';
 
 const ProfessorCourseComponent: React.FC = () => {
-  const { courseData, isLoading, error } = useProfessorCourse();
+  const { courseData, isLoading, error, refreshCourseData } = useProfessorCourse();
   const [expandedAccount, setExpandedAccount] = useState<number | null>(null);
 
   const toggleAccount = (accountId: number) => {
@@ -22,7 +22,7 @@ const ProfessorCourseComponent: React.FC = () => {
       </div>
 
       <div className="game-section">
-        <ProfessorGame isExpired={courseData?.isExpired} />
+        <ProfessorGame isExpired={courseData?.isExpired} onTasksGenerated={refreshCourseData} />
       </div>
 
       <div className="professor-course">

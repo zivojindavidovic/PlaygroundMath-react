@@ -7,6 +7,8 @@ import { RegisterCredentials } from '../types/auth';
 export const useRegister = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -28,6 +30,8 @@ export const useRegister = () => {
           data.errors.forEach((errObj: Record<string, string>) => {
             if (errObj.email) setEmailError(errObj.email);
             if (errObj.password) setPasswordError(errObj.password);
+            if (errObj.firstName) setFirstNameError(errObj.firstName);
+            if (errObj.lastName) setLastNameError(errObj.lastName);
           });
         }
       }
@@ -40,5 +44,5 @@ export const useRegister = () => {
     }
   };
 
-  return { register, emailError, passwordError, isLoading, setPasswordError };
+  return { register, emailError, passwordError, firstNameError, lastNameError, isLoading, setPasswordError };
 }; 
