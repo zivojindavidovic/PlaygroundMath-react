@@ -1,5 +1,5 @@
 import { API_BASE_URL, ENDPOINTS } from '../api/constants';
-import { AdminUser, AdminAccount, UpdatePointsRequest } from '../types/admin';
+import { AdminUser, AdminAccount } from '../types/admin';
 
 interface UpdatePointsData {
     accountId: number;
