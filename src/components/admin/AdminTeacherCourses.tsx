@@ -53,7 +53,7 @@ const AdminTeacherCourses: React.FC = () => {
   const fetchTeacherCourses = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://0.0.0.0:8000/api/v1/admin/teacher-courses", {
+      const response = await fetch("http://local.kotlin/api/v1/admin/teacher-courses", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -93,8 +93,8 @@ const AdminTeacherCourses: React.FC = () => {
 
     const token = localStorage.getItem("accessToken");
     const endpoint = deleteModal.type === 'course' 
-      ? `http://0.0.0.0:8000/api/v1/admin/course/${deleteModal.itemId}`
-      : `http://0.0.0.0:8000/api/v1/admin/test/${deleteModal.itemId}`;
+      ? `http://local.kotlin/api/v1/admin/course/${deleteModal.itemId}`
+      : `http://local.kotlin/api/v1/admin/test/${deleteModal.itemId}`;
 
     try {
       const response = await fetch(endpoint, {

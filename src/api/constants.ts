@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://0.0.0.0:8000/api/v1';
+export const API_BASE_URL = 'http://local.kotlin/api/v1';
 
 export const ENDPOINTS = {
   AUTH: {

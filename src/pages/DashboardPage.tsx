@@ -9,7 +9,7 @@ const DashboardPage: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://0.0.0.0:8000/api/v1/auth/logout", {
+      await fetch("http://local.kotlin/api/v1/auth/logout", {
         method: "POST",
         credentials: "include",
       });

@@ -18,7 +18,7 @@ const ConfirmAccount: React.FC = () => {
       }
 
       try {
-        const response = await fetch("http://0.0.0.0:8000/api/v1/user/confirm", {
+        const response = await fetch("http://local.kotlin/api/v1/user/confirm", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const ConfirmAccount: React.FC = () => {
         </div>
         <h2 className={`confirm-message ${status}`}>{message}</h2>
         {status === "success" && (
-          <Link to="http://0.0.0.0:5173/login" className="login-link">
+          <Link to="http://local.react/login" className="login-link">
             Prijavi se
           </Link>
         )}
